@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>首页</title>
+
+    <!-- 引入 Bootstrap -->
+      <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+    <!--导入css-->
+    <script src="https://cdn.bootcss.com/css-layout/1.1.1/css-layout.js"></script>
+
+    <!--导入vue.js-->
+    <script src="../lib/vue.js"></script>
+
+     <!--导入main.js-->
+    <script src="../src/vue.js"></script>
+</head> 
+
+<body>
+   <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+     
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        </button>
+        <a class="navbar-brand" href="#">奖项申报</a>
+      </div>
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="#">系统管理</a></li>
+          <li><a href="#">个人中心</a></li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">2376200788 <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="#">退出登录</a></li>
+              <li><a href="#">Another action</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+  </nav>
+
+  <div class="page-header">
+    <h2>当前可申报奖项</h2>
+  </div>
+
+  <!--图片和文字-->
+  <div class="row" style="text-align:center;">
+
+    <div class="col-md-3" >
+      <div class="thumbnail">
+        <a href = "#" ><img src="images/u1.png"></a>
+        <div class="caption">
+          <p>蓝鲸产品中心</p>
+          <p>自助服务奖</p>
+          <p>提报人数10人</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="thumbnail">
+          <a href = "#" ><img src="images/u1.png"></a>
+        <div class="caption">
+          <p>蓝鲸产品中心</p>
+          <p>自助服务奖</p>
+          <p>提报人数10人</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="thumbnail">
+          <a href = "#" ><img src="images/u1.png"></a>
+        <div class="caption">
+          <p>蓝鲸产品中心</p>
+          <p>自助服务奖</p>
+          <p>提报人数10人</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="page-header">
+    <h2>上次获奖人名单</h2>
+  </div>
+
+  <!--列表-->
+  <div class="panel panel-default" >
+  
+    <!-- Table -->
+    <table class="table"  style="text-align:center;">
+      <tr class="col-md-9" > 
+        <td class="col-md-2" >所属单位</td>
+        <td class="col-md-2">申报奖项</td>
+        <td class="col-md-2">申请时间</td>
+        <td class="col-md-3">申请人/团队</td>
+        <td class="col-md-1">申报详情</td>
+      </tr>
+
+      <tr class="col-md-9">
+        <td class="col-md-2">蓝鲸产品中心</td>
+        <td class="col-md-2">业务优化奖</td>
+        <td class="col-md-2">2017-11-10</td>
+        <td class="col-md-3">极品飞车online容器项目联合团队</td>
+        <td class="col-md-1">查看</td>
+      </tr>
+
+      <tr class="col-md-9">
+        <td class="col-md-2">蓝鲸产品中心</td>
+        <td class="col-md-2">业务优化奖</td>
+        <td class="col-md-2">2017-11-10</td>
+        <td class="col-md-3">极品飞车online容器项目联合团队</td>
+        <td class="col-md-1">查看</td>
+      </tr>
+
+      <tr class="col-md-9">
+        <td class="col-md-2">蓝鲸产品中心</td>
+        <td class="col-md-2">业务优化奖</td>
+        <td class="col-md-2">2017-11-10</td>
+        <td class="col-md-3">极品飞车online容器项目联合团队</td>
+        <td class="col-md-1">查看</td>
+      </tr>
+
+    </table>
+  </div>
+</body>
+
+<script>
+    var vm = new Vue({
+        el: '#app',
+        data: {
+
+        },
+        methods: {
+
+        }
+    })
+</script>
+
+</html>
