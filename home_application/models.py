@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
 
 # import from apps here
-
+from __future__ import unicode_literals
 
 # import from lib
-from __future__ import unicode_literals
 from django.db import models
 
 #导入枚举类
@@ -13,8 +12,9 @@ from account.models import BkUser
 
 #定义组织列表
 class Organization( models.Model ):
+    objects = models.Manager()
     id_organ = models.CharField( max_length = 50,verbose_name = '组织名称')
-    id_user = models.ForeignKey( BkUser , verbose_name = '负责人ID')
+    id_user = models.ManyToManyField( BkUser , verbose_name = '负责人ID',default='')
     #par_name = models.ForeignKey( BkUser , verbose_name = '参评人ID')
     
     class Meta:
@@ -27,7 +27,7 @@ class Organization( models.Model ):
 #定义奖励表
 class Award(models.Model):
     id_award = models.CharField( max_length = 50 , verbose_name = '奖项名称')
-    group_award = models.ManyToManyField( Organization , verbose_name = '奖项组')
+    group_award = models.ForeignKey( Organization , verbose_name = '奖项组',default='')
     #奖项级别
     level_award = (
                    ('中心级'),
@@ -100,7 +100,7 @@ class ApplyForm( models.Model):
     attachment = models.ForeignKey( Attachment , verbose_name = '附件')
     
     class Meta:
-        db_table = 'ApplyForm'
+        db_table = 'applyform'
         
     def __unicode__(self):
         return '%s' % (self.id_apply)
