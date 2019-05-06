@@ -7,12 +7,10 @@ from __future__ import unicode_literals
 from django.db import models
 
 #导入枚举类
-import enum
 from account.models import BkUser
 
 #定义组织列表
 class Organization( models.Model ):
-    objects = models.Manager()
     id_organ = models.CharField( max_length = 50,verbose_name = '组织名称')
     id_user = models.ManyToManyField( BkUser , verbose_name = '负责人ID',default='')
     #par_name = models.ForeignKey( BkUser , verbose_name = '参评人ID')
