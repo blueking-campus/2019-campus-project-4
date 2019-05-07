@@ -3,7 +3,10 @@
 @summary: 全局常量设置
 用于本地开发环境
 '''
-try: from local_settings import LOCAL_APP_CODE, LOCAL_SECRET_KEY,LOCAL_DATABASE
+
+'''
+try: 
+    from local_settings import LOCAL_APP_CODE, LOCAL_SECRET_KEY,LOCAL_DATABASE
 except ImportError:
     LOCAL_APP_CODE = ''
     LOCAL_SECRET_KEY = ''
@@ -26,11 +29,36 @@ except ImportError:
 # TOCHANGE 在蓝鲸平台上注册的应用的编码
 APP_CODE = LOCAL_APP_CODE
 # APP 密钥
-SECRET_KEY = LOCAL_SECRET_KEY
+SECRET_KEY = ')+$,A1L$-UOSL$(D_C8it-ITsBm~aa~Ix*4$@3kxFM0x(F,Vi0'
 # ===============================================================================
 # 数据库设置, 本地开发数据库设置
 # ===============================================================================
 DATABASES = LOCAL_DATABASE
+
+'''
+
+# ===============================================================================
+# APP 基本信息
+# ===============================================================================
+# TOCHANGE 在蓝鲸平台上注册的应用的编码
+APP_CODE = 'demoappbk'
+# APP 密钥
+SECRET_KEY = ')+$,A1L$-UOSL$(D_C8it-ITsBm~aa~Ix*4$@3kxFM0x(F,Vi0'
+# ===============================================================================
+# 数据库设置, 本地开发数据库设置
+# ===============================================================================
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',  # 我们默认用mysql
+        'NAME': APP_CODE,                       # 数据库名 (默认与APP_CODE相同)
+        'USER': 'root',                                    # 你的数据库user
+        'PASSWORD': 'chengang',                                 # 你的数据库password
+        'HOST': '127.0.0.1',                            # 开发的时候，使用localhost
+        'PORT': '3306',               # 默认3306
+    },
+}
+
+
 
 # ===============================================================================
 # 本地访问路径设置
