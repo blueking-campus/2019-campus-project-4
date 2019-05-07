@@ -1,12 +1,8 @@
 # -*- coding: utf-8 -*-
 from common.mymako import render_mako_context
-#from account.models import BkUser
+from account.models import BkUser
 from .models import Organization
-from home_application import models
 
-
-def orm(request):
-    models.Organization.objects.create(id_organ='alex', id_user= '123')
 
 # 开发框架中通过中间件默认是需要登录态的，如有不需要登录的，可添加装饰器login_exempt【装饰器引入from account.decorators import login_exempt】
 def home(request):
@@ -25,7 +21,7 @@ def home(request):
                       
                       })
     
-    return render_mako_context(request, '/home_application/home.html')
+    return render_mako_context(request, '/home_application/home.html',{'data':data})
 
 
 def dev_guide(request):
@@ -103,3 +99,18 @@ def CheckAwards(request):
     """
     return render_mako_context(request, '/home_application/CheckAwards.html')
 
+
+#首页申请功能
+def my_apply(request):
+    apply_name = str(request.GET.get('apply_name'))
+    introduction = str(request.GET.get('introduction'))
+    attachment = str(request.GET.get('attachment'))
+    
+    apply_record = ApplyForm.objects.create(
+                                         id_apply = apply_name, 
+                                         intro = introduction,
+                                         attachment = attachment
+                                          )
+    
+    return render_json()
+    

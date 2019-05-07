@@ -16,8 +16,10 @@ class Migration(migrations.Migration):
             name='ApplyForm',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('apply_time', models.DateTimeField(verbose_name='\u7533\u62a5\u65f6\u95f4')),
-                ('introduction', models.TextField(verbose_name='\u4e8b\u8ff9\u4ecb\u7ecd')),
+                ('ap_status', models.IntegerField(default='', verbose_name='\u7533\u8bf7\u8868\u72b6\u6001', choices=[(1, 'Undeclared'), (2, 'reviewed'), (3, 'unaudited'), (4, 'failed'), (5, 'passed'), (6, 'awarded'), (7, 'not_awarded')])),
+                ('create_time', models.DateTimeField(auto_now=True, verbose_name='\u521b\u5efa\u65f6\u95f4', null=True)),
+                ('update_time', models.DateTimeField(auto_now=True, verbose_name='\u66f4\u65b0\u65f6\u95f4', null=True)),
+                ('intro', models.TextField(verbose_name='\u4e8b\u8ff9\u4ecb\u7ecd')),
                 ('comments', models.TextField(verbose_name='\u8bc4\u8bed')),
             ],
             options={
@@ -40,9 +42,12 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('id_award', models.CharField(max_length=50, verbose_name='\u5956\u9879\u540d\u79f0')),
+                ('award_level', models.IntegerField(default='1', verbose_name='\u5956\u9879\u7ea7\u522b', choices=[(1, 'company'), (2, 'center'), (3, 'department'), (4, 'group')])),
+                ('status', models.BooleanField(default=True, verbose_name='\u5956\u9879\u72b6\u6001')),
                 ('start_time', models.DateTimeField(verbose_name='\u5f00\u59cb\u65f6\u95f4')),
                 ('end_time', models.DateTimeField(verbose_name='\u7ed3\u675f\u65f6\u95f4')),
-                ('update_time', models.DateTimeField(verbose_name='\u66f4\u65b0\u65f6\u95f4')),
+                ('create_time', models.DateTimeField(auto_now=True, verbose_name='\u521b\u5efa\u65f6\u95f4', null=True)),
+                ('update_time', models.DateTimeField(auto_now=True, verbose_name='\u66f4\u65b0\u65f6\u95f4', null=True)),
                 ('apply_number', models.IntegerField(verbose_name='\u7533\u8bf7\u4eba\u6570')),
                 ('award_number', models.IntegerField(verbose_name='\u83b7\u5956\u4eba\u6570')),
                 ('award_condition', models.TextField(verbose_name='\u53c2\u8bc4\u6761\u4ef6')),
