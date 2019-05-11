@@ -58,7 +58,7 @@
 
 							<span> 奖项名称&nbsp;&nbsp;</span> <input type="text"
 								name="applicant" value="运营安全组2017年Q3季度奖评选" disabled="true"
-								style="width: 400px; height: 30px;">
+								style="width: 400px; height: 30px;" id="award_name">
 						</div>
 
 						<br />
@@ -67,12 +67,10 @@
 							<span> 评奖条件&nbsp;&nbsp;</span>
 							<dd>
 								旨在表彰正确传承公司企业文化精神、精确执行BG本年度管理战略的团队，具体评选标准如下：<br /> <br /> 
-								该项目或产品能够支撑公司及BG战略目标的实现； <br />
-								<br />  该项目或产品达到如下精品的标准：<br /> <br /> ※ 满足甚至超越目标用户的需求；<br /> <br />
-								※ 功能简单易用，有独特的价值和体验，且细节做到极致；<br />
-								<br /> ※ 能体现产品功能背后的人文关怀； <br />
-								<br /> ※ 至少有1个或以上的口碑传播点。 <br />
-								<br /> 奖金：2000元
+								该项目或产品能够支撑公司及BG战略目标的实现； <br /> <br />  该项目或产品达到如下精品的标准：<br />
+								<br /> ※ 满足甚至超越目标用户的需求；<br /> <br /> ※
+								功能简单易用，有独特的价值和体验，且细节做到极致；<br /> <br /> ※ 能体现产品功能背后的人文关怀； <br />
+								<br /> ※ 至少有1个或以上的口碑传播点。 <br /> <br /> 奖金：2000元
 							</dd>
 							<br />
 						</div>
@@ -116,7 +114,7 @@
 						<div class="content-head mgb10 form-inline">
 
 							<span> 申报人/团队&nbsp;&nbsp;</span> <input type="text"
-								id = "apply_name" style="width: 400px; height: 30px;"><span
+								id="apply_name" style="width: 400px; height: 30px;"><span
 								font="color:#red">*</span>
 						</div>
 
@@ -124,7 +122,7 @@
 						<div class="content-head mgb10 form-inline">
 
 							<span> 事迹介绍&emsp;&emsp;</span> <input type="text"
-								id = "introduction"
+								id="introduction"
 								style="width: 400px; height: 250px; padding-top: 0px;"><span
 								font="color:#red">*</span>
 						</div>
@@ -141,8 +139,8 @@
 						<span style="float: right">&emsp;&emsp;</span>
 
 						<button type="submit" class="btn btn-default" style="float: right"
-							id="my_apply">我要申报</button>
-						</form>
+							id="my_apply" target="">我要申报</button>
+						
 					</div>
 				</div>
 			</div>
@@ -158,20 +156,28 @@
 			window.open("../myApply");
 		})
 	});
-	
+
 	$(function() {
-		$("#my_apply").click(function() {
-			var url = "${SITE_URL}my_apply/";
-			var apply_name = $("#apply_name").val();
-			var introduction = $("#introduction").val();
-			var attachment = $("#file").val();
-			var param = {apply_name: apply_name, introduction: introduction , attachment : attachment };
-			
-			$.get(url, param, function(res){
-				window.open("../myApply");
-				
-			}, 'json');
-		})
+		$("#my_apply").click(
+				function() {
+					var url = "${SITE_URL}my_apply/";
+					var apply_name = $("#apply_name").val();
+					var introduction = $("#introduction").val();
+					var attachment = $("#file").val();
+					var award_name = $("#award_name").val();
+					var param = {
+						apply_name : apply_name,
+						introduction : introduction,
+						attachment : attachment,
+						award_name : award_name
+					};
+
+					window.open("../myApply");
+
+					$.get(url, param, function(res) {
+
+					}, 'json');
+				})
 	});
 </script>
 

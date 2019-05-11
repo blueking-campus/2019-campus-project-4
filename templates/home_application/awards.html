@@ -5,6 +5,9 @@
     <meta charset="utf-8">
     <title>奖项信息</title>
 
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">  
+
+
    <!-- 引入 Bootstrap -->
     <link href="../../static/css/bootstrap.css" rel="stylesheet">
 
@@ -67,17 +70,17 @@
         <span> 申报时间：</span>> <input class="form-control date-input" id="apply_time" type="text" />
         <span>&emsp;&emsp;</span><span>&emsp;&emsp;</span>
         <div class="form-group">
-            <a class="btn btn-default btn-sm" href="javascript:;" id="searchware">查询</a>
+            <a class="btn btn-default btn-sm" href="" id="searchware">查询</a>
         </div>
 
         <span>&emsp;&emsp;</span><span>&emsp;&emsp;</span>
         <div class="form-group">
-            <a class="btn btn-default btn-sm" href="批量克隆.html" id="batchCloning" target = "_blank">批量克隆</a>
+            <a class="btn btn-default btn-sm" href="" id="batchCloning" target = "_blank">批量克隆</a>
         </div>
 
         <span>&emsp;&emsp;</span><span>&emsp;&emsp;</span>
         <div class="form-group">
-            <a class="btn btn-default btn-sm" href="新增奖项.html" id="newadd" target = "_blank">新增</a>
+            <a class="btn btn-default btn-sm" href="" id="newadd" target = "_blank">新增</a>
         </div>
 
 
@@ -88,9 +91,10 @@
         <table id="tb_data">
         </table>
     </div>
-    <table class="table table-condensed table-bordered">
+    <table class="table table-condensed table-bordered" id = "table01">
         <thead>
-            <tr>
+            <tr name="checkall">
+                
                 <th>所属组织</th>
                 <th>奖项级别</th>
                 <th>申报奖项</th>
@@ -102,7 +106,7 @@
                 <th>操作</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id = "information">
             <tr>
                 <td>蓝鲸产品中心</td>
                 <td>中心级</td>
@@ -112,53 +116,30 @@
                 <td>2017-11-20 20:00:00</td>
                 <td>10</td>
                 <td>1</td>
-                <td><a href="../CheckAwards">查看</a>&emsp;<a href="../newAddAwards">克隆</a>&emsp;<a href="../newAddAwards">编辑</a>&emsp;<a href="链接">删除</a> </td>
             </tr>
-            <tr>
-                <td>蓝鲸产品中心</td>
-                <td>中心级</td>
-                <td>季度之星</td>
-                <td>开启</td>
-                <td>2017-11-10 20:00:00</td>
-                <td>2017-11-20 20:00:00</td>
-                <td>10</td>
-                <td>1</td>
-                <td><a href="../CheckAwards">查看</a>&emsp;<a href="../newAddAwards">克隆</a>&emsp;<a href="../newAddAwards">编辑</a>&emsp;<a href="链接">删除</a> </td>
-            </tr>
-            <tr>
-                <td>蓝鲸产品中心</td>
-                <td>中心级</td>
-                <td>季度之星</td>
-                <td>开启</td>
-                <td>2017-11-10 20:00:00</td>
-                <td>2017-11-20 20:00:00</td>
-                <td>10</td>
-                <td>1</td>
-                <td><a href="../CheckAwards">查看</a>&emsp;<a href="../newAddAwards">克隆</a>&emsp;<a href="../newAddAwards">编辑</a>&emsp;<a href="链接">删除</a> </td>
-            </tr>
-            <tr >
-               <td>蓝鲸产品中心</td>
-                <td>中心级</td>
-                <td>季度之星</td>
-                <td>开启</td>
-                <td>2017-11-10 20:00:00</td>
-                <td>2017-11-20 20:00:00</td>
-                <td>10</td>
-                <td>1</td>
-                <td><a href="../CheckAwards">查看</a>&emsp;<a href="../newAddAwards">克隆</a>&emsp;<a href="../newAddAwards">编辑</a>&emsp;<a href="链接">删除</a> </td>
-            </tr>
-            <tr>
-                <td>蓝鲸产品中心</td>
-                <td>中心级</td>
-                <td>季度之星</td>
-                <td>开启</td>
-                <td>2017-11-10 20:00:00</td>
-                <td>2017-11-20 20:00:00</td>
-                <td>10</td>
-                <td>1</td>
-                <td><a href="../CheckAwards">查看</a>&emsp;<a href="../newAddAwards">克隆</a>&emsp;<a href="../newAddAwards">编辑</a>&emsp;<a href="链接">删除</a> </td>
-            </tr>
+            
+            
+            % for i in awards_information :
+			<tr>
+				<td>${i.group_award.id_organ}</td>
+				<td>${i.award_level}</td>
+				<td >${i.id_award}</td>
+				<td>${i.status}</td>
+				<td>${i.start_time}</td>
+				<td>${i.end_time}</td>
+				<td>${i.apply_number}</td>
+				<td>${i.award_number}</td>
+                <td>
+                    <button class="btn btn-defaul" > <i class="glyphicon glyphicon-open">查看</i></button>
+                    <button class="btn btn-defaul" > <i class="glyphicon glyphicon-copyright-mark">克隆</i></button>
+                    <button class="btn btn-defaul" > <i class="glyphicon glyphicon-pencil">编辑</i></button>
+                    <button class="btn btn-defaul" > <i class="glyphicon glyphicon-remove">删除</i> </button>
+                </td>
+			</tr>
+			% endfor
+            
         </tbody>
+          
     </table>
     <div style="float: right">
         <button class="prev">上一页</button>
@@ -169,9 +150,6 @@
         <button class="next">下一页</button>
     </div>
 
-    </div>
-    </div>
-    </div>
 
 
 
@@ -191,6 +169,73 @@
     		window.open("../batchCloning");
     	})
     })
+
+    // $(function() {
+    //     $("#view").click(function() {
+    //         window.open("../CheckAwards");
+    //     })
+    // });
+
+    // $(function() {
+    //     $("#copy").click(function() {
+    //         window.open("../newAddAwards");
+    //     })
+    // });
+
+    // $(function() {
+    //     $("#edit").click(function() {
+    //         window.open("../newAddAwards");
+    //     })
+    // });
+
+    $('#table01').find('.glyphicon-open').parent('button').click(function(){
+        
+          
+        window.location.href = "../CheckAwards";
+     
+                
+    });
+
+
+    $('#table01').find('.glyphicon-copyright-mark').parent('button').click(function(){
+        
+          
+        window.location.href = "../newAddAwards";
+                
+    });
+
+
+    $('#table01').find('.glyphicon-pencil').parent('button').click(function(){
+        
+          
+        window.location.href = "../newAddAwards";
+     
+                
+    });
+
+
+    $('#table01').find('.glyphicon-remove').parent('button').click(function(){
+    	
+    	//软删除？
+    	var url = "${SITE_URL}delete_award/";
+    	var id_award = $(this).closest('tr').children('td:eq(2)').text();
+    	alert( id_award );
+    	
+    	var param = {
+    			id_award : id_award
+			};
+
+			$.get(url, param, function(res) {
+				
+			}, 'json');
+    	
+			
+//        if(confirm('确定要删除？')){
+//            $(this).closest('tr').remove();
+//        }
+    });
+
+
 </script>
 
 </html>
