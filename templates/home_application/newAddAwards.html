@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="utf-8">
+<title>我的申报-奖项申报</title>
+
+<!-- 引入 Bootstrap -->
+<link href="../../static/css/bootstrap.css" rel="stylesheet">
+
+<!--导入script-->
+<script src="../../static/js/jquery-1.11.2.js"></script>
+<script src="../../static/js/bootstrap.js"></script>
+</head>
+
+<body>
+
+	<nav class="navbar navbar-inverse">
+		<div class="container-fluid">
+
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed"
+					data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
+					aria-expanded="false"></button>
+				<a class="navbar-brand" href="../">奖项申报</a>
+			</div>
+			<ul class="nav navbar-nav navbar-right">
+				<li><a href="../awards">系统管理</a></li>
+				<li><a href="../myApply">个人中心</a></li>
+				<li class="dropdown"><a href="#" class="dropdown-toggle"
+					data-toggle="dropdown" role="button" aria-haspopup="true"
+					aria-expanded="false">2376200788 <span class="caret"></span></a>
+					<ul class="dropdown-menu">
+						<li><a href="#">退出登录</a></li>
+						<li><a href="#">切换账号</a></li>
+					</ul></li>
+			</ul>
+		</div>
+		<!-- /.navbar-collapse -->
+		</div>
+		<!-- /.container-fluid -->
+	</nav>
+
+	</div>
+	<ul class="breadcrumb">
+		<li><a href="../awards">系统管理</a> <span class="divider"></span></li>
+		<li><a href="./">新增奖项</a> <span class="divider"></span></li>
+
+	</ul>
+	</div>
+
+	<div class="container">
+		<div class="row clearfix">
+			<div class="col-md-12 column">
+				<div class="row clearfix">
+					<div class="col-md-9 column">
+
+						<span> 奖项名称&emsp;&emsp;</span> <input type="text"
+							style="width: 700px; height: 30px;" id="award_name"> <br />
+						<br /> <span> 评奖条件</span><br /> <br />
+						<script type="text/javascript" charset="utf-8"
+							src="../../static/ueditor/ueditor.config.js"></script>
+						<script type="text/javascript" charset="utf-8"
+							src="../../static/ueditor/ueditor.all.min.js"></script>
+						<script type="text/javascript" charset="utf-8"
+							src="../../static/ueditor/lang/zh-cn/zh-cn.js"></script>
+						<script id="editor" type="text/plain" name="gdesc"
+							style="width: 100%; height: 350px;"></script>
+						<script type="text/javascript">
+							//实例化编辑器
+							var ue = UE.getEditor('editor', {});
+						</script>
+
+						<br /> <br /> <span> 奖项级别&emsp;&emsp;</span> <select
+							class="form-control" id="award_level">
+							<option value="1">部门级</option>
+							<option value="2">中心级</option>
+							<option value="3">公司级</option>
+							<option value="4">小组级</option>
+
+						</select> <br /> <br /> <span> 所属组织&emsp;&emsp;</span>
+						 <input type="text" style="width: 700px; height: 30px;" id = "organ"> <br /> <br /> 
+						 <span>开始时间&emsp;&emsp;</span>
+						 <input type="text"style="width: 700px; height: 30px;" id = "start_time"> <br /> <br /> 
+						 <span>申报时间&emsp;&emsp;</span> 
+						 <input type="text" style="width: 700px; height: 30px;" id = "apply_time"> <br /> <br /> 
+						 <span>申报人数&emsp;&emsp;</span> 
+						 <input type="text" style="width: 700px; height: 30px;" id = "apply_number"> <br /> <br /> 
+						 <span>获奖人数&emsp;&emsp;</span> 
+						 <input type="text" style="width: 700px; height: 30px;" id = "award_number"> <br /> <br /> 
+						 
+						<span>上传附件&emsp;&emsp;</span>
+
+						<div class="btn-group" role="group" aria-label="...">
+							<button type="button" class="btn btn-default" id = "yes">YES</button>
+							<button type="button" class="btn btn-default" id = "no">NO</button>
+						</div>
+
+						<br /> <br /> <span> 状态&emsp;&emsp;&emsp;&emsp;</span>
+						<button type="button" class="btn btn-default" id = "effcting">生效</button>
+						<span>&emsp;&emsp;</span>
+						<button type="button" class="btn btn-default" id = "outtime">过期</button>
+
+						<div class="page-header">
+							<h4></h4>
+						</div>
+
+						<button type="submit" class="btn btn-default" style="float: right"
+							id="quit">取消</button>
+						<span style="float: right">&emsp;&emsp;</span>
+
+						<button type="submit" class="btn btn-default" style="float: right"
+							id="cert" >确定</button>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</body>
+
+<script>
+	$(function() {
+		
+		//是否上传附件
+		var is_upload;
+		$("#yes").click( function() {
+			is_upload = 1;
+			//alert( is_upload );
+		});
+		
+		$("#no").click( function() {
+			is_upload = 0;
+			//alert( is_upload );
+		});
+		
+		//状态
+		var is_effect;
+		$("#effcting").click( function() {
+			is_effect = true;
+		});
+		
+		$("#outtime").click( function() {
+			is_effect = false;
+		});
+		
+		$("#cert").click(
+				function() {
+					var url = "${SITE_URL}add_award/";
+					var award_name = $("#award_name").val();
+					
+					var award_if = ue.getContentTxt();
+					//alert( award_if );
+					//.val()拿到value的值
+					var award_level = $("#award_level option:selected")
+							.val();
+
+					var organ = $("#organ").val();
+					
+					var start_time = $("#start_time").val();
+					var apply_time = $("#apply_time").val();
+					
+					var is_attach = is_upload;
+					
+					var status = is_effect;
+					alert( status );
+					
+					var apply_number = $("#apply_number").val();
+					var award_number = $("#award_number").val();
+					//alert( apply_time );
+
+					var param = {
+						award_name : award_name,
+						award_if : award_if,
+						award_level : award_level,
+						organ : organ,
+						start_time : start_time,
+						apply_time : apply_time,
+						is_attach : is_attach,
+						status : status,
+						apply_number : apply_number,
+						award_number : award_number
+					};
+
+					$.get(url, param, function(res) {
+						
+					}, 'json');
+					
+					window.open("../awards", '_self');
+				})
+	});
+	
+	$(function() {
+		$("#quit").click(function() {
+			window.open("../awards");
+		})
+	});
+</script>
+
+</html>
