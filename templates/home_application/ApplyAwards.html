@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="utf-8">
+<title>我的申报-奖项申报</title>
+
+<!-- 引入 Bootstrap -->
+<link href="../../static/css/bootstrap.css" rel="stylesheet">
+
+<!--导入jquery-->
+<script src="../../static/js/jquery-1.11.2.js"></script>
+<script src="../../static/js/bootstrap.js"></script>
+</head>
+
+<body>
+
+	<nav class="navbar navbar-inverse">
+		<div class="container-fluid">
+
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed"
+					data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
+					aria-expanded="false"></button>
+				<a class="navbar-brand" href="../">奖项申报</a>
+			</div>
+			<ul class="nav navbar-nav navbar-right">
+				<li><a href="../awards">系统管理</a></li>
+				<li><a href="../myApply">个人中心</a></li>
+				<li class="dropdown"><a href="#" class="dropdown-toggle"
+					data-toggle="dropdown" role="button" aria-haspopup="true"
+					aria-expanded="false">2376200788 <span class="caret"></span></a>
+					<ul class="dropdown-menu">
+						<li><a href="#">退出登录</a></li>
+						<li><a href="#">切换账号</a></li>
+					</ul></li>
+			</ul>
+		</div>
+		<!-- /.navbar-collapse -->
+		</div>
+		<!-- /.container-fluid -->
+	</nav>
+
+	</div>
+	<ul class="breadcrumb">
+		<li><a href="../myApply">个人中心</a> <span class="divider"></span></li>
+		<li><a href="./">奖项申报</a> <span class="divider"></span></li>
+
+	</ul>
+	</div>
+
+	<div class="container">
+		<div class="row clearfix">
+			<div class="col-md-12 column">
+				<div class="row clearfix">
+					<div class="col-md-6 column">
+						<div class="content-head mgb10 form-inline">
+
+							<span> 奖项名称&nbsp;&nbsp;</span> <input type="text"
+								name="applicant" value="运营安全组2017年Q3季度奖评选" disabled="true"
+								style="width: 400px; height: 30px;" id="award_name">
+						</div>
+
+						<br />
+						<div class="content-head mgb10 form-inline">
+
+							<span> 评奖条件&nbsp;&nbsp;</span>
+							<dd>
+								旨在表彰正确传承公司企业文化精神、精确执行BG本年度管理战略的团队，具体评选标准如下：<br /> <br /> 
+								该项目或产品能够支撑公司及BG战略目标的实现； <br /> <br />  该项目或产品达到如下精品的标准：<br />
+								<br /> ※ 满足甚至超越目标用户的需求；<br /> <br /> ※
+								功能简单易用，有独特的价值和体验，且细节做到极致；<br /> <br /> ※ 能体现产品功能背后的人文关怀； <br />
+								<br /> ※ 至少有1个或以上的口碑传播点。 <br /> <br /> 奖金：2000元
+							</dd>
+							<br />
+						</div>
+
+						<br />
+						<div class="content-head mgb10 form-inline">
+
+							<span> 审核人&nbsp;&nbsp;</span> <input type="text" name="applicant"
+								value="xxx" disabled="true" style="width: 400px; height: 30px;">
+						</div>
+						<br />
+
+
+						<div class="content-head mgb10 form-inline">
+
+							<span> 状态&emsp;&emsp;</span> <input type="text" name="comment"
+								value="生效中" disabled="true"
+								style="width: 400px; height: 30px; padding-top: 0px;">
+						</div>
+						<br />
+
+						<div class="content-head mgb10 form-inline">
+
+							<span> 奖项级别&emsp;&emsp;</span> <input type="text" name="comment"
+								value="部门级" disabled="true"
+								style="width: 400px; height: 30px; padding-top: 0px;">
+						</div>
+						<br />
+
+						<div class="content-head mgb10 form-inline">
+
+							<span> 所属中心&emsp;&emsp;</span> <input type="text" name="comment"
+								value="蓝鲸产品中心" disabled="true"
+								style="width: 400px; height: 30px; padding-top: 0px;">
+						</div>
+						<br />
+
+					</div>
+					<div class="col-md-6 column">
+
+						<div class="content-head mgb10 form-inline">
+
+							<span> 申报人/团队&nbsp;&nbsp;</span> <input type="text"
+								id="apply_name" style="width: 400px; height: 30px;"><span
+								font="color:#red">*</span>
+						</div>
+
+						<br />
+						<div class="content-head mgb10 form-inline">
+
+							<span> 事迹介绍&emsp;&emsp;</span> <input type="text"
+								id="introduction"
+								style="width: 400px; height: 250px; padding-top: 0px;"><span
+								font="color:#red">*</span>
+						</div>
+
+						<br />
+						<div class="form-group">
+							<label for="exampleInputFile">附件</label><input type="file"
+								id="file" /> <br />答辩.ppt
+
+						</div>
+						<br />
+						<button type="submit" class="btn btn-default" style="float: right"
+							id="quit">取消</button>
+						<span style="float: right">&emsp;&emsp;</span>
+
+						<button type="submit" class="btn btn-default" style="float: right"
+							id="my_apply" target="">我要申报</button>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+</body>
+
+<script>
+	$(function() {
+		$("#quit").click(function() {
+			window.open("../myApply");
+		})
+	});
+
+	$(function() {
+		$("#my_apply").click(
+				function() {
+					var url = "${SITE_URL}my_apply/";
+					var apply_name = $("#apply_name").val();
+					var introduction = $("#introduction").val();
+					var attachment = $("#file").val();
+					var award_name = $("#award_name").val();
+					var param = {
+						apply_name : apply_name,
+						introduction : introduction,
+						attachment : attachment,
+						award_name : award_name
+					};
+
+					window.open("../myApply");
+
+					$.get(url, param, function(res) {
+
+					}, 'json');
+				})
+	});
+</script>
+
+</html>

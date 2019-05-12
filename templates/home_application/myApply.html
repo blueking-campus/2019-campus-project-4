@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="utf-8">
+<title>我的申报</title>
+
+<!-- 引入 Bootstrap -->
+<link href="../../static/css/bootstrap.css" rel="stylesheet">
+
+<!--导入script-->
+<script src="../../static/js/jquery-1.11.2.js"></script>
+<script src="../../static/js/bootstrap.js"></script>
+</head>
+
+<body>
+	<nav class="navbar navbar-inverse">
+		<div class="container-fluid">
+
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed"
+					data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
+					aria-expanded="false"></button>
+				<a class="navbar-brand" href="../">奖项申报</a>
+			</div>
+			<ul class="nav navbar-nav navbar-right">
+				<li><a href="../awards">系统管理</a></li>
+				<li><a href="./">个人中心</a></li>
+				<li class="dropdown"><a href="#" class="dropdown-toggle"
+					data-toggle="dropdown" role="button" aria-haspopup="true"
+					aria-expanded="false">2376200788 <span class="caret"></span></a>
+					<ul class="dropdown-menu">
+						<li><a href="#">退出登录</a></li>
+						<li><a href="#">切换账号</a></li>
+					</ul></li>
+			</ul>
+		</div>
+		<!-- /.navbar-collapse -->
+		</div>
+		<!-- /.container-fluid -->
+	</nav>
+
+	</div>
+	<ul class="breadcrumb">
+		<li><a href="./">个人中心</a> <span class="divider">/</span></li>
+		<li><a href="./"><b>我的申报</b></a><span class="divider">/</span></li>
+		<li><a href="../myReview">我的审核</a> <span class="divider">/</span></li>
+	</ul>
+	<div id="award_inquire" class="content-head mgb10 form-inline">
+
+		<span> 申报奖项：</span>> <input type="text" id="apply_award"> <span>
+			审核状态：</span>> <select class="form-control" id="apply_status">
+			<option value="unlim">不限</option>
+			<option value="no_apply">未申报</option>
+			<option value="reviewing">审核中</option>
+			<option value="no_pass">未通过</option>
+			<option value="pass">通过</option>
+			<option value="no_award">未获奖</option>
+			<option value="award">已获奖</option>
+		</select> <span> 申请时间：</span>> <input class="form-control date-input"
+			id="apply_time" type="text" />
+
+		<button type="submit" class="btn btn-default" id="search">查询</button>
+
+		<br /> <br />
+
+	</div>
+	<div class="tb-container form-inline">
+		<table id="tb_data">
+		</table>
+	</div>
+	<table class="table table-condensed table-bordered">
+		<thead>
+			<tr>
+				<th>所属中心</th>
+				<th>申报奖项</th>
+				<th>奖项状态</th>
+				<th>申报人/团队</th>
+				<th>申报状态</th>
+				<th>申报时间</th>
+				<th>操作</th>
+			</tr>
+		</thead>
+		<tbody id="search_record">
+			<tr>
+				<td>蓝鲸产品中心</td>
+				<td>季度之星</td>
+				<td>生效中</td>
+				<td>xxx</td>
+				<td>未申报</td>
+				<td>2019-04-26 18：00：00</td>
+				<td><a href="../ApplyAwards">申报</a></td>
+			</tr>
+			% for i in all_record :
+			<tr>
+				<td>${i.organ}</td>
+				<td>${i.apply_award}</td>
+				<td>${i.award_status}</td>
+				<td>${i.apply}</td>
+				<td>${i.apply_status}</td>
+				<td>${i.apply_time}</td>
+				<td><a href="../ApplyAwards">申报</a></td>
+			</tr>
+			% endfor
+
+		</tbody>
+	</table>
+	<div style="float: right">
+		<button class="prev">上一页</button>
+		<button class="btn">1</button>
+		<button class="btn">2</button>
+		<button class="btn">3</button>
+		<button class="btn">4</button>
+		<button class="next">下一页</button>
+	</div>
+
+
+
+
+
+
+</body>
+
+<script>
+	$(function() {
+		$("#search").click(
+				function() {
+					var url = "${SITE_URL}apply_search/";
+					var apply_award = $("#apply_award").val();
+
+					//.val()拿到value的值
+					var apply_status = $("#apply_status option:selected")
+							.text();
+
+					var apply_time = $("#apply_time").val();
+
+					//alert( apply_time );
+
+					var param = {
+						apply_award : apply_award,
+						apply_status : apply_status,
+						apply_time : apply_time
+					};
+
+					$.get(url, param, function(res) {
+						if (res.result) {
+							var tr_html = '<tr>' + '<td>' + res.organ + '</td>'
+									+ '<td>' + res.apply_award + '</td>'
+									+ '<td>' + res.award_status + '</td>'
+									+ '<td>' + res.apply + '</td>' + '<td>'
+									+ res.apply_status + '</td>' + '<td>'
+									+ res.apply_time + '</td>' + '</tr>';
+							$("#search_record").prepend(tr_html);
+						}
+					}, 'json');
+				})
+	});
+</script>
+
+</html>

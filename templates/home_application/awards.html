@@ -116,12 +116,6 @@
                 <td>2017-11-20 20:00:00</td>
                 <td>10</td>
                 <td>1</td>
-                <td>
-                    <button class="btn btn-defaul"> <i class="glyphicon glyphicon-open">查看</i>
-                    <button class="btn btn-defaul"> <i class="glyphicon glyphicon-copyright-mark">克隆</i>
-                    <button class="btn btn-defaul"> <i class="glyphicon glyphicon-pencil">编辑</i>
-                    <button class="btn btn-defaul"> <i class="glyphicon glyphicon-remove">删除</i> 
-                </td>
             </tr>
             
             
@@ -129,17 +123,17 @@
 			<tr>
 				<td>${i.group_award.id_organ}</td>
 				<td>${i.award_level}</td>
-				<td>${i.id_award}</td>
+				<td >${i.id_award}</td>
 				<td>${i.status}</td>
-				<td>${i.create_time}</td>
 				<td>${i.start_time}</td>
+				<td>${i.end_time}</td>
 				<td>${i.apply_number}</td>
 				<td>${i.award_number}</td>
                 <td>
-                    <button class="btn btn-defaul" > <i class="glyphicon glyphicon-open">查看</i>
-                    <button class="btn btn-defaul" > <i class="glyphicon glyphicon-copyright-mark">克隆</i>
-                    <button class="btn btn-defaul" > <i class="glyphicon glyphicon-pencil">编辑</i>
-                    <button class="btn btn-defaul" > <i class="glyphicon glyphicon-remove">删除</i>  
+                    <button class="btn btn-defaul" > <i class="glyphicon glyphicon-open">查看</i></button>
+                    <button class="btn btn-defaul" > <i class="glyphicon glyphicon-copyright-mark">克隆</i></button>
+                    <button class="btn btn-defaul" > <i class="glyphicon glyphicon-pencil">编辑</i></button>
+                    <button class="btn btn-defaul" > <i class="glyphicon glyphicon-remove">删除</i> </button>
                 </td>
 			</tr>
 			% endfor
@@ -157,6 +151,148 @@
     </div>
 
 
+
+	 <div style=
+    			"position: absolute;
+				left: 0;
+				top: 0;
+				width: 500px;left: 50%;margin-left: -25%;
+				height: 800px;
+				top:50px;
+				background-color:#E0EEE0;
+				border : 1px solid #B9D3EE;
+				display: none;
+				padding : 40px;"
+				id="clone">
+		
+        <span> 奖项名称&emsp;&emsp;</span>
+        <input type="text" style="width:300px; height:30px;" id = "clone_award_name">
+        
+        <br/><br/>
+
+        <span> 评奖条件&emsp;&emsp;</span>
+        <input type="text" style="width:300px; height:200px;" id = "clone_award_if">
+
+        <br/><br/>
+        
+        <span> 奖项级别&emsp;&emsp;</span> 
+        <select
+			class="" id="clone_award_level">
+			<option value="1">部门级</option>
+			<option value="2">中心级</option>
+			<option value="3">公司级</option>
+			<option value="4">小组级</option>
+		</select> 
+
+        <br/><br/>
+        
+        <span> 所属组织&emsp;&emsp;</span>
+		<input type="text" style="width: 300px; height: 30px;" id = "clone_organ">
+		
+		<br/><br/>
+		<span>开始时间&emsp;&emsp;</span>
+		<input type="text"style="width: 300px; height: 30px;" id = "clone_start_time"> <br /> <br /> 
+		
+		<span>申报时间&emsp;&emsp;</span> 
+		<input type="text" style="width: 300px; height: 30px;" id = "clone_apply_time"> <br /> <br /> 
+		 
+		<span>申报人数&emsp;&emsp;</span> 
+		<input type="text" style="width: 300px; height: 30px;" id = "clone_apply_number"> <br /> <br /> 
+		 
+		<span>获奖人数&emsp;&emsp;</span> 
+		<input type="text" style="width: 300px; height: 30px;" id = "clone_award_number"> <br /> <br /> 
+		 
+		<span>上传附件&emsp;&emsp;</span>
+
+		<div class="btn-group" role="group" aria-label="...">
+			<button type="button" class="btn btn-default" id = "clone_yes">YES</button>
+			<button type="button" class="btn btn-default" id = "clone_no">NO</button>
+		</div>
+
+		<br /> <br /> 
+		<span> 状态&emsp;&emsp;&emsp;&emsp;</span>
+		<button type="button" class="btn btn-default" id = "clone_effcting">生效</button>
+		<span>&emsp;&emsp;</span>
+		<button type="button" class="btn btn-default" id = "clone_outtime">过期</button>
+		
+		<br /> <br /> 
+		
+		
+		<button type="submit" class="btn btn-default" style="float: right" id="clone_quit">返回</button> 
+		<span style="float: right">&emsp;&emsp;</span>
+        <button type="submit" class="btn btn-default" style = "float:right" id = "clone_save">保存</button>
+
+
+		
+    </div>
+	
+	<div style=
+    			"position: absolute;
+				left: 0;
+				top: 0;
+				width: 500px;left: 50%;margin-left: -25%;
+				height: 800px;
+				top:50px;
+				background-color:#E0EEE0;
+				border : 1px solid #B9D3EE;
+				display: none;
+				padding : 40px;"
+				id="edit">
+		
+        <span> 奖项名称&emsp;&emsp;</span>
+        <input type="text" style="width:300px; height:30px;" id = "edit_award_name" disabled = "disabled">
+        
+        <br/><br/>
+
+        <span> 评奖条件&emsp;&emsp;</span>
+        <input type="text" style="width:300px; height:200px;" id = "edit_award_if">
+
+        <br/><br/>
+        
+        <span> 奖项级别&emsp;&emsp;</span> 
+        <select
+			class="" id="edit_award_level">
+			<option value="1">部门级</option>
+			<option value="2">中心级</option>
+			<option value="3">公司级</option>
+			<option value="4">小组级</option>
+		</select> 
+
+        <br/><br/>
+        
+        <span> 所属组织&emsp;&emsp;</span>
+		<input type="text" style="width: 300px; height: 30px;" id = "edit_organ">
+		
+		<br/><br/>
+		<span>开始时间&emsp;&emsp;</span>
+		<input type="text"style="width: 300px; height: 30px;" id = "edit_start_time"> <br /> <br /> 
+		
+		<span>申报时间&emsp;&emsp;</span> 
+		<input type="text" style="width: 300px; height: 30px;" id = "edit_apply_time"> <br /> <br /> 
+		 
+		<span>申报人数&emsp;&emsp;</span> 
+		<input type="text" style="width: 300px; height: 30px;" id = "edit_apply_number"> <br /> <br /> 
+		 
+		<span>获奖人数&emsp;&emsp;</span> 
+		<input type="text" style="width: 300px; height: 30px;" id = "edit_award_number"> <br /> <br /> 
+		 
+		<span>上传附件&emsp;&emsp;</span>
+
+		<div class="btn-group" role="group" aria-label="...">
+			<button type="button" class="btn btn-default" id = "edit_yes">YES</button>
+			<button type="button" class="btn btn-default" id = "edit_no">NO</button>
+		</div>
+
+		<br /> <br /> 
+		<span> 状态&emsp;&emsp;&emsp;&emsp;</span>
+		<button type="button" class="btn btn-default" id = "edit_effcting">生效</button>
+		<span>&emsp;&emsp;</span>
+		<button type="button" class="btn btn-default" id = "edit_outtime">过期</button>
+		
+		<br /> <br /> 
+		
+        <button type="submit" class="btn btn-default" style = "float:right" id = "edit_save">保存</button> 
+    </div>
 
 
 
@@ -176,23 +312,6 @@
     	})
     })
 
-    // $(function() {
-    //     $("#view").click(function() {
-    //         window.open("../CheckAwards");
-    //     })
-    // });
-
-    // $(function() {
-    //     $("#copy").click(function() {
-    //         window.open("../newAddAwards");
-    //     })
-    // });
-
-    // $(function() {
-    //     $("#edit").click(function() {
-    //         window.open("../newAddAwards");
-    //     })
-    // });
 
     $('#table01').find('.glyphicon-open').parent('button').click(function(){
         
@@ -201,29 +320,233 @@
      
                 
     });
+    
+    
+    
 
-
+	//克隆功能
     $('#table01').find('.glyphicon-copyright-mark').parent('button').click(function(){
         
           
-        window.location.href = "../newAddAwards";
-                
-    });
 
-
-    $('#table01').find('.glyphicon-pencil').parent('button').click(function(){
-        
-          
-        window.location.href = "../newAddAwards";
+    	if($("#clone").css("display")=="none"){
+            $("#clone").show();
+        }  
+    	
+    	var clone_award_name = $(this).closest('tr').children('td:eq(2)').text(); 
+    	
+    	$("#clone_award_name").val(clone_award_name);
+    	
+    	var url = "${SITE_URL}clone_award/";
+    
+    	var param = {
+    			clone_award_name : clone_award_name
+			};
      
+    	$.get(url, param, function(res) {
+    		if(res.result) {
+    			
+    			$("#clone_award_if").val(res.award_if);
+    			$("#clone_award_level").val(res.award_level);
+    			$("#clone_organ").val(res.organ);
+    			$("#clone_apply_number").val(res.apply_number);
+    			$("#clone_award_number").val(res.award_number);
+    			$("#clone_award_if").val(res.award_if);
+    			$("#clone_start_time").val(res.start_time);
+    			$("#clone_apply_time").val(res.apply_time);
+    			$("#clone_award_number").val(res.award_number);
+    		}
+		}, 'json');
                 
     });
+	
+  //是否上传附件
+	var is_upload;
+	$("#clone_yes").click( function() {
+		is_upload = 1;
+	});
+	
+	$("#clone_no").click( function() {
+		is_upload = 0;
+	});
+	
+	var is_effect;
+	$("#clone_effcting").click( function() {
+		is_effect = true;
+	});
+	
+	$("#clone_outtime").click( function() {
+		is_effect = false;
+	});
+	
 
+	//克隆完保存功能
+	$("#clone_save").click(function (){
+	
+	var url = "${SITE_URL}clone_change/";
+	
+	var award_name = $("#clone_award_name").val();
+	var award_if = $("#clone_award_if").val();
+	var award_level = $("#clone_award_level option:selected").val();
+	var organ = $("#clone_organ").val();
+	
+	var start_time = $("#clone_start_time").val();
+	var apply_time = $("#clone_apply_time").val();
+	
+	var apply_number = $("#clone_apply_number").val();
+	var award_number = $("#clone_award_number").val();
+	
+	var is_attach = is_upload;
+	var status = is_effect;
+	
+	var param = {
+			award_name : award_name,
+			award_if : award_if,
+			award_level : award_level,
+			organ : organ,
+			start_time : start_time,
+			apply_time : apply_time,
+			is_attach : is_attach,
+			status : status,
+			apply_number : apply_number,
+			award_number : award_number
+		};
 
+		$.get(url, param, function(res) {
+			
+		}, 'json');
+	
+    if($("#clone").css("display")=="block"){
+        $("#clone").hide();
+    }
+});
+	$(function() {
+		$("#clone_quit").click(function() {
+			 if($("#clone").css("display")=="block"){
+			        $("#clone").hide();
+			    }
+		})
+	});
+	
+
+    //编辑功能
+    $('#table01').find('.glyphicon-pencil').parent('button').click(function(){
+
+    	if($("#edit").css("display")=="none"){
+            $("#edit").show();
+        }  
+    	
+    	var edit_award_name = $(this).closest('tr').children('td:eq(2)').text(); 
+    	
+    	$("#edit_award_name").val(edit_award_name);
+    	
+    	var url = "${SITE_URL}edit_award/";
+    	
+    	var param = {
+    			edit_award_name : edit_award_name
+			};
+
+     
+    	$.get(url, param, function(res) {
+    		if(res.result) {
+    			$("#edit_award_if").val(res.award_if);
+    			$("#edit_award_level").val(res.award_level);
+    			$("#edit_organ").val(res.organ);
+    			$("#edit_apply_number").val(res.apply_number);
+    			$("#edit_award_number").val(res.award_number);
+    			$("#edit_award_if").val(res.award_if);
+    			$("#edit_start_time").val(res.start_time);
+    			$("#edit_apply_time").val(res.apply_time);
+    			$("#edit_award_number").val(res.award_number);
+    		}
+		}, 'json');
+    	
+    	//window.location.href = "../edit";
+    });
+    
+  	//是否上传附件
+	var is_upload;
+	$("#edit_yes").click( function() {
+		is_upload = 1;
+	});
+	
+	$("#edit_no").click( function() {
+		is_upload = 0;
+	});
+	
+	var is_effect;
+	$("#edit_effcting").click( function() {
+		is_effect = true;
+	});
+	
+	$("#edit_outtime").click( function() {
+		is_effect = false;
+	});
+    
+
+	//编辑完保存功能
+	$("#edit_save").click(function (){
+	
+	var url = "${SITE_URL}edit_change/";
+	
+	var award_name = $("#edit_award_name").val();
+	var award_if = $("#edit_award_if").val();
+	var award_level = $("#edit_award_level option:selected").val();
+	var organ = $("#edit_organ").val();
+	
+	var start_time = $("#edit_start_time").val();
+	var apply_time = $("#edit_apply_time").val();
+	
+	var apply_number = $("#edit_apply_number").val();
+	var award_number = $("#edit_award_number").val();
+	
+	var is_attach = is_upload;
+	var status = is_effect;
+	
+	var param = {
+			award_name : award_name,
+			award_if : award_if,
+			award_level : award_level,
+			organ : organ,
+			start_time : start_time,
+			apply_time : apply_time,
+			is_attach : is_attach,
+			status : status,
+			apply_number : apply_number,
+			award_number : award_number
+		};
+
+		$.get(url, param, function(res) {
+			
+		}, 'json');
+	
+    if($("#edit").css("display")=="block"){
+        $("#edit").hide();
+    }
+});
+
+    
+    
+    //删除功能
     $('#table01').find('.glyphicon-remove').parent('button').click(function(){
-                if(confirm('确定要删除？')){
-                    $(this).closest('tr').remove();
-                }
+    	
+    	//软删除？
+    	var url = "${SITE_URL}delete_award/";
+    	var id_award = $(this).closest('tr').children('td:eq(2)').text();
+    	alert( id_award );
+    	
+    	var param = {
+    			id_award : id_award
+			};
+
+		$.get(url, param, function(res) {
+				
+			}, 'json');
+    	
+			
+        if(confirm('确定要删除？')){
+            $(this).closest('tr').remove();
+        }
     });
 
 

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>批量克隆</title>
+
+    <!-- 引入 Bootstrap -->
+    <link href="../../static/css/bootstrap.css" rel="stylesheet">
+
+    <!--导入script-->
+    <script src="../../static/js/jquery-1.11.2.js"></script>
+    <script src="../../static/js/bootstrap.js"></script>
+</head>
+
+<body>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
+                    aria-expanded="false"></button>
+                <a class="navbar-brand" href="../">奖项申报</a>
+            </div>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="../awards">系统管理</a></li>
+                <li><a href="../myApply">个人中心</a></li>
+                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">2376200788 <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">退出登录</a></li>
+                        <li><a href="#">切换账号</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
+
+    </div>
+    <ul class="breadcrumb">
+        <li><a href="../awards">系统管理</a> <span class="divider"></span></li>
+        <li><a href="../OrganManage">单位管理</a><span class="divider"></span></li>
+        <li><a href="../awards"><b>奖项信息</b></a> <span class="divider"></span></li>
+
+    </ul>
+
+
+    <div id="award_inquire" class="content-head mgb10 form-inline" style="height:200px;background-color:silver;padding:10px ;">
+
+        <span> 申报奖项：</span> <input type="text" v-model="apply_award" style="width:150px">
+        <span>&emsp;</span>
+        <span>替换&emsp;&emsp;</span><input type="text" v-model="apply_award" style="width:150px">
+        <br/><br/>
+
+        <span> 所属组织：</span>
+        <div class="dropdown" style="display:inline">
+            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="true">
+				不限 <span class="caret"></span>
+			</button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                <li><a href="#">不限</a></li>
+                <li><a href="#">蓝鲸产品中心</a></li>
+                <li><a href="#">XX产品中心</a></li>
+            </ul>
+        </div>
+        <span>&emsp;&emsp;支持多选</span>
+
+        <br/><br/>
+
+        <span> 申报时间：</span> <input type="text" />
+        <span>&emsp;&emsp;</span>至<span>&emsp;&emsp;</span>
+        <input type="text" />
+
+        <br/><br/>
+
+        <div class="form-group" style="float:right">
+            <a class="btn btn-default btn-sm" href="javascript:;" id="searchware">预览</a>
+        </div>
+
+        <span style="float:right">&emsp;&emsp;</span>
+        <div class="form-group" style="float:right">
+            <a class="btn btn-default btn-sm" href="javascript:;" id="searchware">确认</a>
+        </div>
+
+    </div>
+
+    <br/><br/>
+
+    <div class="tb-container form-inline">
+        <table id="tb_data">
+        </table>
+    </div>
+    <table class="table table-condensed table-bordered">
+        <thead>
+            <tr>
+                <th>所属组织</th>
+                <th>奖项级别</th>
+                <th>申报奖项</th>
+                <th>替换后奖项名称</th>
+                <th>开始时间</th>
+                <th>申报时间</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>蓝鲸产品中心</td>
+                <td>中心级</td>
+                <td>2017年Q2季度之星</td>
+                <td>2017年Q3季度之星</td>
+                <td>2017-11-10 20:00:00</td>
+                <td>2017-11-20 20:00:00</td>
+                <td><a href="../CheckAwards">查看</a>&emsp;<a href="../newAddAwards">编辑</a>&emsp;<a href="链接">删除</a> </td>
+            </tr>
+            <tr>
+                 <td>蓝鲸产品中心</td>
+                <td>中心级</td>
+                <td>2017年Q2季度之星</td>
+                <td>2017年Q3季度之星</td>
+                <td>2017-11-10 20:00:00</td>
+                <td>2017-11-20 20:00:00</td>
+                <td><a href="../CheckAwards">查看</a>&emsp;<a href="../newAddAwards">编辑</a>&emsp;<a href="链接">删除</a> </td>
+            </tr>
+            <tr>
+                <td>蓝鲸产品中心</td>
+                <td>中心级</td>
+                <td>2017年Q2季度之星</td>
+                <td>2017年Q3季度之星</td>
+                <td>2017-11-10 20:00:00</td>
+                <td>2017-11-20 20:00:00</td>
+                <td><a href="../CheckAwards">查看</a>&emsp;<a href="../newAddAwards">编辑</a>&emsp;<a href="链接">删除</a> </td>
+            </tr>
+            <tr>
+                <td>蓝鲸产品中心</td>
+                <td>中心级</td>
+                <td>2017年Q2季度之星</td>
+                <td>2017年Q3季度之星</td>
+                <td>2017-11-10 20:00:00</td>
+                <td>2017-11-20 20:00:00</td>
+                <td><a href="../CheckAwards">查看</a>&emsp;<a href="../newAddAwards">编辑</a>&emsp;<a href="链接">删除</a> </td>
+            </tr>
+            <tr>
+                <td>蓝鲸产品中心</td>
+                <td>中心级</td>
+                <td>2017年Q2季度之星</td>
+                <td>2017年Q3季度之星</td>
+                <td>2017-11-10 20:00:00</td>
+                <td>2017-11-20 20:00:00</td>
+                <td><a href="../CheckAwards">查看</a>&emsp;<a href="../newAddAwards">编辑</a>&emsp;<a href="链接">删除</a> </td>
+            </tr>
+        </tbody>
+    </table>
+    <div style="float: right">
+        <button class="prev">上一页</button>
+        <button class="btn">1</button>
+        <button class="btn">2</button>
+        <button class="btn">3</button>
+        <button class="btn">4</button>
+        <button class="next">下一页</button>
+    </div>
+
+    </div>
+    </div>
+    </div>
+
+
+</body>
+
+<script>
+
+</script>
+
+</html>
