@@ -49,28 +49,22 @@
     </ul>
     <div id="award_inquire" class="content-head mgb10 form-inline">
 
-        <span> 申报奖项：</span>> <input type="text" v-model="apply_award">
+        <span> 申报奖项：</span>> <input type="text" id = "query_name" >
 
-        <span> 所属组织：</span>> <input type="text" v-model="apply_award">
+        <span> 所属组织：</span>> <input type="text" id = "query_organ">
 
 
         <span> 状态：</span>>
-        <div class="dropdown" style="display:inline">
-            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true"
-                aria-expanded="true">
-				不限 <span class="caret"></span>
-			</button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                <li><a href="#">不限</a></li>
-                <li><a href="#">生效中</a></li>
-                <li><a href="#">已过期</a></li>
-            </ul>
-        </div>
+        <select class="form-control" id="query_status" onmousedown="javascript:return true;">
+			<option value="0">不限</option>
+			<option value="1">生效中</option>
+			<option value="2">已过期</option>
+		</select> 
 
-        <span> 申报时间：</span>> <input class="form-control date-input" id="apply_time" type="text" />
+        <span> 申报时间：</span>> <input class="form-control date-input" id="query_apply_time" type="text" />
         <span>&emsp;&emsp;</span><span>&emsp;&emsp;</span>
         <div class="form-group">
-            <a class="btn btn-default btn-sm" href="" id="searchware">查询</a>
+            <a class="btn btn-default btn-sm" href="" id="query">查询</a>
         </div>
 
         <span>&emsp;&emsp;</span><span>&emsp;&emsp;</span>
@@ -120,10 +114,11 @@
             
             
             % for i in awards_information :
+            	 
 			<tr>
 				<td>${i.group_award.id_organ}</td>
 				<td>${i.award_level}</td>
-				<td >${i.id_award}</td>
+				<td>${i.id_award}</td>
 				<td>${i.status}</td>
 				<td>${i.start_time}</td>
 				<td>${i.end_time}</td>
@@ -136,6 +131,7 @@
                     <button class="btn btn-defaul" > <i class="glyphicon glyphicon-remove">删除</i> </button>
                 </td>
 			</tr>
+				
 			% endfor
             
         </tbody>
@@ -163,6 +159,7 @@
 				border : 1px solid #B9D3EE;
 				display: none;
 				padding : 40px;"
+				onmousedown="move(this)"
 				id="clone">
 		
         <span> 奖项名称&emsp;&emsp;</span>
@@ -217,13 +214,7 @@
 		
 		<br /> <br /> 
 		
-		
-		<button type="submit" class="btn btn-default" style="float: right" id="clone_quit">返回</button> 
-		<span style="float: right">&emsp;&emsp;</span>
-        <button type="submit" class="btn btn-default" style = "float:right" id = "clone_save">保存</button>
-
-
-		
+        <button type="submit" class="btn btn-default" style = "float:right" id = "clone_save">保存</button> 
     </div>
 	
 	<div style=
@@ -237,6 +228,7 @@
 				border : 1px solid #B9D3EE;
 				display: none;
 				padding : 40px;"
+				onmousedown="move(this)"
 				id="edit">
 		
         <span> 奖项名称&emsp;&emsp;</span>
@@ -300,6 +292,8 @@
 </body>
 
 <script>
+
+	
     $(function() {
     	$("#newadd").click(function() {
     		window.open("../newAddAwards");
@@ -315,10 +309,12 @@
 
     $('#table01').find('.glyphicon-open').parent('button').click(function(){
         
-          
-        window.location.href = "../CheckAwards";
-     
-                
+    	var check_award_name = $(this).closest('tr').children('td:eq(2)').text();
+    	
+    	alert( check_award_name );
+    	
+    	window.location.href= '../CheckAwards?nid='+encodeURI(check_award_name);
+    
     });
     
     
@@ -338,7 +334,7 @@
     	$("#clone_award_name").val(clone_award_name);
     	
     	var url = "${SITE_URL}clone_award/";
-    
+    	
     	var param = {
     			clone_award_name : clone_award_name
 			};
@@ -420,13 +416,7 @@
         $("#clone").hide();
     }
 });
-	$(function() {
-		$("#clone_quit").click(function() {
-			 if($("#clone").css("display")=="block"){
-			        $("#clone").hide();
-			    }
-		})
-	});
+	
 	
 
     //编辑功能
@@ -434,7 +424,9 @@
 
     	if($("#edit").css("display")=="none"){
             $("#edit").show();
-        }  
+        }
+    	
+    	 
     	
     	var edit_award_name = $(this).closest('tr').children('td:eq(2)').text(); 
     	
@@ -548,6 +540,68 @@
             $(this).closest('tr').remove();
         }
     });
+    
+    var arr = [];
+    //查询功能
+    $("#query").click( function() {
+    	var query_name = $("#query_name").val();
+    	if ( query_name == "" ) {
+    		query_name = "*";
+    	}
+    	
+    	var query_organ = $("#query_organ").val();
+    	if ( query_organ == "" ) {
+    		query_organ = "*";
+    	}
+    	var query_status = $("#query_status option:selected").val();
+    	
+    	var query_apply_time = $("#query_apply_time").val();
+    	if ( query_apply_time == "" ) {
+    		query_apply_time = "*";
+    	}
+    	
+    	var url = "${SITE_URL}query_award/";
+    	
+    	var param = {
+    			query_name : query_name,
+    			//query_organ : query_organ,
+    			//query_status : query_status,
+    			//query_apply_time : query_apply_time
+			};
+    	
+    	$.get(url, param, function(res) {
+			if ( res ) {
+				arr.push( res );
+			}
+		}, 'json');
+    	
+    	alert( arr[0].id_award );
+    });
+    
+
+//div窗体拖动功能
+function move(obj,e){
+		var _move=false;//移动标记  
+		var _x,_y;//鼠标离控件左上角的相对位置  
+		$(obj).click(function(){  
+			//alert("click");//点击（松开后触发）  
+			}).mousedown(function(e){  
+			_move=true;  
+			_x=e.pageX-parseInt($(obj).css("left"));  
+			_y=e.pageY-parseInt($(obj).css("top"));  
+			//$(obj).fadeTo(20, 0.5);//点击后开始拖动并透明显示  
+		});  
+		$(document).mousemove(function(e){  
+			if(_move){  
+				var x=e.pageX-_x;//移动时根据鼠标位置计算控件左上角的绝对位置  
+				var y=e.pageY-_y;  
+				$(obj).css({top:y,left:x});//控件新位置  
+			}  
+		}).mouseup(function(){  
+		_move=false;  
+   	 	//$(obj).fadeTo("fast", 1);//松开鼠标后停止移动并恢复成不透明  "fast":规定褪色效果的速度。
+  		});  
+	}
 
 
 </script>
