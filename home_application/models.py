@@ -1,227 +1,160 @@
 # -*- coding: utf-8 -*-
 
 # import from apps here
-
-
-# import from lib
-
 from __future__ import unicode_literals
 
-
+# import from lib
 from django.db import models
+
+#导入BkUser
 from account.models import BkUser
-from enum import Enum
 
+<<<<<<< .mine
+# from aenum import Enum, skip
+# 
+# class DjangoEnum(Enum):
+# # 由于 django 不允许数字做变量
+#     _KEY_VALUE_REVERSE = skip(False)
+#     @classmethod
+#     def to_django_choices(cls):
+#         return [(v.value, key) if cls._KEY_VALUE_REVERSE else (key, v.value) for key, v in cls.__members__.items()]
+=======
+#from enum import Enum, skip
+>>>>>>> .r8085
 
+<<<<<<< .mine
+=======
+# class DjangoEnum(Enum):
+# # 由于 django 不允许数字做变量
+#     _KEY_VALUE_REVERSE = skip(False)
+#     @classmethod
+#     def to_django_choices(cls):
+#         return [(v.value, key) if cls._KEY_VALUE_REVERSE else (key, v.value) for key, v in cls.__members__.items()]
+>>>>>>> .r8085
 
 #######奖项所属级别##############
-# class level_type(Enum):
-#     company = 1
-#     center = 2
-#     department = 3
-#     group = 4
-
-level_type = (
-            (1, "company"),
-            (2, "center"),
-            (3, "department"),
-            (4, "group")
+# class AwardLevelType(Enum):
+#   COMPANY = '公司'
+#   CENTER = '中心'
+#   DEPARTMENT = '部门'
+#   GROUP = '小组'
+#   _KEY_VALUE_REVERSE = skip(True)
+LEVEL_TYPE = (
+            (1, '公司'),
+            (2, '中心'),
+            (3, '小组'),
+            (4, '部门'),
               )
-                   
-                   
 
 
-########奖项相关操作#########
-# class award_opt(Enum):
-#     award_edit = 1
-#     award_delete = 2
-#     award_view = 3               
-    
-award_opt = (
-            (1, "award_edit"),
-            (2, "award_delete"),
-            (3, "award_view")
-              )
+
 
 #########申请表状态#######
-# class ap_status(Enum):    
-#     Undeclared = 1
-#     reviewed = 2
-#     unaudited = 3
-#     failed = 4
-#     passed = 5
-#     awarded = 6
-#     not_awarded = 7
-
-ap_status = (
-            (1, "Undeclared"),
-            (2, "reviewed"),
-            (3, "unaudited"),
-            (4, "failed"),
-            (5, "passed"),
-            (6, "awarded"),
-            (7, "not_awarded")
-              )
-
-
-#########申请人员对申请表相关操作#######
-# class ap_opt(Enum):
-#     applicant = 1 #申请
-#     edit = 2
-#     re_ap = 3 #重新申请
-#     view = 4
-
-ap_opt = (
-          (1, "applicant"),
-          (2, "edit"),
-          (3, "re_ap"),
-          (4, "view")
-          )
-
-
-############评委操作#################
-# class review_opt(Enum):
-#     ap_pass = 1
-#     ap_reject = 2
-#     award = 3
-
-review_opt = (
-              (1, "ap_pass"),
-              (2, "ap_reject"),
-              (3, "award")
+# class ApplyFormType(Enum):
+#   Undeclared = '未申报'
+#   reviewed = '已审核'
+#   unaudited = '未审核'
+#   passed = '通过'
+#   failed = '未通过'
+#   awarde = '获奖'
+#   not_awarded = '未获奖'
+# _KEY_VALUE_REVERSE = skip(True)
+AP_STATUS = (
+            (1, '未申报'),
+            (2, '已审核'),
+            (3, '未审核'),
+            (4, '通过'),
+            (5, '未通过'),
+            (6, '获奖'),
+            (7, '未获奖')
               )
 
 
 
 
 
-##############################
-#
-#账户表                                                            
-#名称：Accounts                   
-#                           
-#功能：将蓝鲸用户表和表中信息关联
-#  
-##############################
-
-class Accounts(models.Model):
-    User_name = models.CharField(max_length=30, verbose_name="用户姓名")
-    user_id = models.OneToOneField(
-                                   BkUser,
-                                   on_delete=models.CASCADE,
-                                   primary_key=True,
-                                   verbose_name="用户id"
-                                   )
-    #权限？
-    class Meta:
-        db_table = 'accounts'
-
-##############################
-#
-#组织表                                                            
-#名称：ORG                   
-#                           
-#功能：存储所属组织及组织成员  
-#  
-##############################
-class Org(models.Model):
-    Org_name = models.CharField(max_length=30, verbose_name="组织名称")
-    teammate = models.ManyToManyField(Accounts, verbose_name="组织人员")
-    #如何区分申报人员和评委
-    create_time = models.DateTimeField(auto_now=True, verbose_name="创建时间")
-    update_time = models.DateTimeField(auto_now=True, verbose_name="更新时间")
+#定义组织列表
+class Organization( models.Model ):
+    id_organ = models.CharField( max_length = 50,verbose_name = '组织名称')
+    id_user = models.ManyToManyField( BkUser , verbose_name = '负责人ID',default='')
+    #par_name = models.ForeignKey( BkUser , verbose_name = '参评人ID')
     
     class Meta:
-        db_table = 'Org'
+        db_table = 'organization'
         
     def __unicode__(self):
-        return "organization name: %s, reviewer: %s, applicant: %s" % (self.Org_name, self.reviewer, self.applicant)
-        
+        return '%s' % (self.id_organ)
 
-##############################
-#
-#奖项表                                                            
-#名称：Award                   
-#                           
-#功能：存储奖项信息  
-#  
-##############################
 
-class Awards(models.Model):
-    award_name = models.CharField(max_length=30, verbose_name="奖项名称")
-    award_request = models.TextField(verbose_name="奖项要求")
-    #award_level = models.ForeignKey(level_type, verbose_name="奖项级别")
-    award_level = models.IntegerField(choices=level_type, verbose_name="奖项级别")
-    org_name = models.OneToOneField(Org, verbose_name="所属中心")
+
+
+
+
+
+
+
+
+    
+
+#定义奖励表
+class Award(models.Model):
+    id_award = models.CharField( max_length = 50 , verbose_name = '奖项名称')
+    group_award = models.ForeignKey( Organization , verbose_name = '奖项组',default='')
+    #奖项级别
+    award_level = models.IntegerField(choices=LEVEL_TYPE, verbose_name='奖项级别')
+#     award_level = models.CharField(choices=ApplyFormType.to_django_choices('公司'))
     status = models.BooleanField(verbose_name="奖项状态", default=True)
-    
-    start_time = models.DateField(verbose_name="开始时间")
-    end_time = models.DateField(verbose_name="结束时间")
-    create_time = models.DateTimeField(auto_now=True, verbose_name="创建时间")
-    update_time = models.DateTimeField(auto_now=True, verbose_name="更新时间")
-    
-    #award_opt = models.ForeignKey(award_opt, verbose_name="奖项操作")
-    award_opt = models.IntegerField(choices=award_opt, verbose_name="奖项操作")
-  
-    replacement_name = models.CharField(max_length=30, verbose_name="替换后奖项名称")
-    
+
+    start_time = models.DateTimeField(verbose_name = '开始时间')
+    end_time = models.DateTimeField(verbose_name = '结束时间')
+    create_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
+    update_time = models.DateTimeField(auto_now=True, verbose_name = '更新时间')
+    apply_number = models.IntegerField(verbose_name = '申请人数')
+    award_number = models.IntegerField(verbose_name = '获奖人数')
+    award_condition = models.TextField(verbose_name = '参评条件')
+
     class Meta:
-        db_table = "awards"
-        ordering = ["-start_time"]
-    
+        db_table = 'award'
+        
     def __unicode__(self):
-        return "award name: %s" % (self.award_name)
-
-
-##############################
-#
-#附件表                                                            
-#名称：attachment                   
-#                           
-#功能：存储附件
-#  
-##############################
-
+        return '%s' % (self.id_award)
+    
 #定义附件表
 class Attachment( models.Model):
-    attachment_name = models.CharField( max_length = 50 , verbose_name = "附件ID")
-    attachment_path = models.CharField( max_length = 255,verbose_name = "云端附件" )
+    attach_id = models.CharField(max_length = 50, verbose_name = '附件ID')
+    attach_path = models.CharField(max_length = 255, verbose_name = '云端附件' )
     
     class Meta:
-        db_table = "attachment"
-        ordering = ["attachment_name"]
+        db_table = 'attachment'
+        
+    def __unicode__(self):
+        return '%s' % (self.attach_id)
 
-##############################
-#
-#申报表                                                            
-#名称：applicant                   
-#                           
-#功能：存储申报表信息  
-#  
-##############################
 
-class Applicant(models.Model):
-    ap_id = models.ForeignKey(Accounts, verbose_name="申请人")
-    
-    #ap_status = models.ForeignKey(ap_status, verbose_name="申请表状态")
-    ap_status = models.IntegerField(choices=ap_status, verbose_name="申请表状态")
-    
-    create_time = models.DateTimeField(auto_now=True, verbose_name="创建时间")
+#定义申请表
+class ApplyForm( models.Model):
+    id_apply = models.ForeignKey(BkUser , verbose_name = '申请人ID')
+    group_apply = models.ManyToManyField(Organization , verbose_name = '申请人所在组织')
+    apply_award = models.ForeignKey(Award , verbose_name = '申请奖项')
+    #申请表状态
+    ap_status = models.IntegerField(choices=AP_STATUS, verbose_name='申请表状态')
+    #ap_status = models.CharField(choices=AwardLevelType.to_django_choices('已审核'))
+   
+    create_time = models.DateTimeField(auto_now_add=True, verbose_name="创建时间")
     update_time = models.DateTimeField(auto_now=True, verbose_name="更新时间")
-    
-    ap_intro = models.TextField(verbose_name="事迹介绍")
-    
-    #ap_opt = models.ForeignKey(ap_opt, verbose_name="操作")
-    ap_opt = models.IntegerField(choices=ap_opt, verbose_name="操作")
-    attachment = models.ForeignKey(Attachment, verbose_name="附件")
-    comment = models.TextField(verbose_name="评语")
-    #review_opt = models.ForeignKey(review_opt, verbose_name="操作")
-    review_opt = models.IntegerField(choices=review_opt, verbose_name="评委操作")
-    
+
+    intro = models.TextField(verbose_name = '事迹介绍')
+    # review_result = (
+    #                ('未通过'),
+    #                ('通过'),
+    #                ('已获奖'),
+    #                ('未获奖')
+    #                )
+    comments = models.TextField(verbose_name = '评语')
+    attachment = models.ForeignKey(Attachment, verbose_name = '附件')
     
     class Meta:
-        db_table = "applicant"
-    
-
-
-      
+        db_table = 'applyform'
+        
+    def __unicode__(self):
+        return '%s' % (self.id_apply)
