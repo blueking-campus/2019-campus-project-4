@@ -2,10 +2,12 @@
 from account.models import BkUser
 from home_application.models import *
 from common.mymako import render_mako_context , render_json
-from sqlalchemy.types import Boolean
+
 from datetime import datetime
 from celery.worker.job import Request
-
+from django.shortcuts import render_to_response
+import json
+from django.core.serializers.json import DjangoJSONEncoder
 
 # 开发框架中通过中间件默认是需要登录态的，如有不需要登录的，可添加装饰器login_exempt【装饰器引入from account.decorators import login_exempt】
 def home(request):
@@ -59,9 +61,15 @@ def awards(request):
     """
     系统管理-奖项信息页面
     """
-    
-    awards_information = Award.objects.all();
+    awards_information = Award.objects.all()
     return render_mako_context(request, '/home_application/awards.html',{"awards_information":awards_information})
+    
+#    if  query_name == "":
+#        awards_information = Award.objects.filter( id_award = query_name)
+#    else :
+#        awards_information = Award.objects.all()
+#    awards_information = Award.objects.filter( id_award = query_name)
+#    return render_mako_context(request, '/home_application/awards.html',{"awards_information":awards_information})
 
 def ApplyAwards(request):
     """
@@ -279,7 +287,7 @@ def clone_award(request):
  
  
     
- #系统管理-奖项信息-克隆奖项功能
+#系统管理-奖项信息-克隆奖项功能
 def clone_change(request):
     award_name = str(request.GET.get('award_name'))
     organ = str(request.GET.get('organ'))
@@ -309,10 +317,42 @@ def clone_change(request):
                                           )
     
     return render_json()   
+
+
+#奖项查看页面-奖项信息渲染
+def check_award( request ):
     
+    check_award_name  = str(request.GET.get('check_award_name'));
+    check_record = Award.objects.get( id_award = check_award_name )
     
+    return render_json({'result': True, 
+                        'award_if': check_record.award_condition,
+                        'award_level': check_record.award_level,
+                        'organ': check_record.group_award.id_organ,
+                        'start_time': datetime.strftime(check_record.start_time,"%Y-%m-%d %H:%M:%S"),
+                        'end_time': datetime.strftime(check_record.end_time,"%Y-%m-%d %H:%M:%S"),
+                        'status': check_record.status,
+                        'reviewer':"2376200788"
+                        })
     
+    return render_json()
     
+
+#查询奖项信息
+def query_award( request ):
+    
+    query_name  = str(request.GET.get('query_name'));
+#     query_organ  = str(request.GET.get('query_organ'));
+#     query_status  = str(request.GET.get('query_status'));
+#     #query_apply_time  = str(request.GET.get('query_apply_time'));
+# 
+    awards_information = Award.objects.filter( id_award = query_name );
+#   
+    haha = json.dumps(awards_information , cls=DjangoJSONEncoder)
+       
+    return render_json(
+                       {'haha' : haha }
+                       );
     
     
     

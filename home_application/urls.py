@@ -42,6 +42,15 @@ urlpatterns = patterns(
  #克隆返回页面
     (r'^clone_award/$', 'clone_award'),
     
-#保存克隆数据
+#系统管理-奖项信息-克隆奖项渲染功能
     (r'^clone_change/$', 'clone_change'),
+    
+#系统管理-奖项信息-克隆奖项功能
+    (r'^clone_award/$', 'clone_award'),
+    
+#奖项查看页面-奖项信息渲染
+    (r'^check_award/$', 'check_award'),
+    
+#查询奖项信息
+    (r'^query_award/$', 'query_award'),
 )
