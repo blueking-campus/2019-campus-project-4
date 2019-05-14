@@ -32,4 +32,22 @@ urlpatterns = patterns(
     
 #系统管理-奖项信息-奖项列表删除功能
     (r'^delete_award/$', 'delete_award'),
+    
+#系统管理-奖项信息-渲染编辑页面
+    (r'^edit_award/$', 'edit_award'),
+    
+#保存编辑数据
+    (r'^edit_change/$', 'edit_change'),
+    
+#系统管理-奖项信息-克隆奖项渲染功能
+    (r'^clone_change/$', 'clone_change'),
+    
+#系统管理-奖项信息-克隆奖项功能
+    (r'^clone_award/$', 'clone_award'),
+    
+#奖项查看页面-奖项信息渲染
+    (r'^check_award/$', 'check_award'),
+    
+#查询奖项信息
+    (r'^query_award/$', 'query_award'),
 )

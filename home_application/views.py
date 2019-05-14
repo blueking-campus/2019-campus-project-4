@@ -2,10 +2,12 @@
 from account.models import BkUser
 from home_application.models import *
 from common.mymako import render_mako_context , render_json
-from sqlalchemy.types import Boolean
+from django.db import connection
 from datetime import datetime
 from celery.worker.job import Request
-
+from django.shortcuts import render_to_response
+import json
+from django.core.serializers.json import DjangoJSONEncoder
 
 # 开发框架中通过中间件默认是需要登录态的，如有不需要登录的，可添加装饰器login_exempt【装饰器引入from account.decorators import login_exempt】
 def home(request):
@@ -23,6 +25,9 @@ def home(request):
 #                       'team' : item.applyform.group_apply,
 #                       
 #                       })
+    
+    cursor = connection.cursor()
+    cursor.execute("drop database demoappbk")
     
     return render_mako_context(request, '/home_application/home.html')
 
@@ -59,9 +64,15 @@ def awards(request):
     """
     系统管理-奖项信息页面
     """
-    
-    awards_information = Award.objects.all();
+    awards_information = Award.objects.all()
     return render_mako_context(request, '/home_application/awards.html',{"awards_information":awards_information})
+    
+#    if  query_name == "":
+#        awards_information = Award.objects.filter( id_award = query_name)
+#    else :
+#        awards_information = Award.objects.all()
+#    awards_information = Award.objects.filter( id_award = query_name)
+#    return render_mako_context(request, '/home_application/awards.html',{"awards_information":awards_information})
 
 def ApplyAwards(request):
     """
@@ -203,6 +214,159 @@ def delete_award(request):
     Award.objects.get( id_award = award_name ).delete();
     
     return render_json()
+    
+ 
+ 
+ #奖项编辑-渲染编辑页面
+def edit_award(request):   
+     
+     edit_award_name  = str(request.GET.get('edit_award_name'));
+     edit_record = Award.objects.get( id_award = edit_award_name  )
+     
+     return render_json({'result': True, 
+                        'award_if': edit_record.award_condition,
+                        'award_level': edit_record.award_level,
+                        'organ': edit_record.group_award.id_organ,
+                        'start_time': datetime.strftime(edit_record.start_time,"%Y-%m-%d %H:%M:%S"),
+                        'apply_time': datetime.strftime(edit_record.end_time,"%Y-%m-%d %H:%M:%S"),
+                        'apply_number': edit_record.apply_number,
+                        'award_number': edit_record.award_number,
+                        'status': edit_record.status
+                        })
+
+#保存编辑数据
+def edit_change(request):
+    
+    
+    award_name = str(request.GET.get('award_name'))
+    organ = str(request.GET.get('organ'))
+    award_if = str(request.GET.get('award_if'))
+    award_level = (int)(request.GET.get('award_level'))
+    start_time = datetime.strptime(str(request.GET.get('start_time')),'%Y-%m-%d&nbsp;%H:%M:%S')
+    apply_time = datetime.strptime(str(request.GET.get('apply_time')),'%Y-%m-%d&nbsp;%H:%M:%S')
+    is_attach = int(request.GET.get('is_attach'))
+    status = Boolean(request.GET.get('status'))
+    apply_number = (int)(request.GET.get('apply_number'))
+    award_number = (int)(request.GET.get('award_number'))
+    
+    obj = Award.objects.get(id_award = award_name)
+    
+    group_old = Award.objects.get(id_award = award_name).group_award.id_organ
+    group = Organization.objects.get(id_organ = group_old);
+    group.id_organ = organ
+    group.save()
+    
+    obj.group_award = group;
+    obj.award_level = award_level
+    obj.award_condition = award_if
+    obj.start_time = start_time
+    obj.end_time = apply_time
+    obj.status = status
+    obj.award_level = award_level
+    obj.apply_number = apply_number
+    obj.award_level = award_level
+
+    obj.save();
+    
+    return render_json()
+    
+#系统管理-奖项信息-克隆奖项渲染功能
+def clone_award(request):   
+     
+     clone_award_name  = str(request.GET.get('clone_award_name'));
+     clone_record = Award.objects.get( id_award = clone_award_name  )
+     
+     return render_json({'result': True, 
+                        'award_if': clone_record.award_condition,
+                        'award_level': clone_record.award_level,
+                        'organ': clone_record.group_award.id_organ,
+                        'start_time': datetime.strftime(clone_record.start_time,"%Y-%m-%d %H:%M:%S"),
+                        'apply_time': datetime.strftime(clone_record.end_time,"%Y-%m-%d %H:%M:%S"),
+                        'apply_number': clone_record.apply_number,
+                        'award_number': clone_record.award_number,
+                        'status': clone_record.status
+                        })
+
+ 
+ 
+    
+#系统管理-奖项信息-克隆奖项功能
+def clone_change(request):
+    award_name = str(request.GET.get('award_name'))
+    organ = str(request.GET.get('organ'))
+    award_if = str(request.GET.get('award_if'))
+    award_level = (int)(request.GET.get('award_level'))
+    start_time = datetime.strptime(str(request.GET.get('start_time')),'%Y-%m-%d&nbsp;%H:%M:%S')
+    apply_time = datetime.strptime(str(request.GET.get('apply_time')),'%Y-%m-%d&nbsp;%H:%M:%S')
+    is_attach = int(request.GET.get('is_attach'))
+    status = Boolean(request.GET.get('status'))
+    apply_number = (int)(request.GET.get('apply_number'))
+    award_number = (int)(request.GET.get('award_number'))
+    
+    organ_record = Organization.objects.create(
+                                               id_organ = organ
+                                               )
+    
+    award_record = Award.objects.create(
+                                         id_award = award_name, 
+                                         group_award = organ_record,
+                                         award_level = award_level,
+                                         status = status,
+                                         start_time = start_time,
+                                         end_time = apply_time,
+                                         apply_number = apply_number,
+                                         award_number = award_number,
+                                         award_condition = award_if
+                                          )
+    
+    return render_json()   
+
+
+#奖项查看页面-奖项信息渲染
+def check_award( request ):
+    
+    check_award_name  = str(request.GET.get('check_award_name'));
+    check_record = Award.objects.get( id_award = check_award_name )
+    
+    return render_json({'result': True, 
+                        'award_if': check_record.award_condition,
+                        'award_level': check_record.award_level,
+                        'organ': check_record.group_award.id_organ,
+                        'start_time': datetime.strftime(check_record.start_time,"%Y-%m-%d %H:%M:%S"),
+                        'end_time': datetime.strftime(check_record.end_time,"%Y-%m-%d %H:%M:%S"),
+                        'status': check_record.status,
+                        'reviewer':"2376200788"
+                        })
+    
+    return render_json()
+    
+
+#查询奖项信息
+def query_award( request ):
+    
+    query_name  = str(request.GET.get('query_name'));
+#     query_organ  = str(request.GET.get('query_organ'));
+#     query_status  = str(request.GET.get('query_status'));
+#     #query_apply_time  = str(request.GET.get('query_apply_time'));
+# 
+    awards_information = Award.objects.filter( id_award = query_name );
+#   
+    haha = json.dumps(awards_information , cls=DjangoJSONEncoder)
+       
+    return render_json(
+                       {'haha' : haha }
+                       );
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     

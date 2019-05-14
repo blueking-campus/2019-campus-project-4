@@ -9,14 +9,14 @@ from django.db import models
 #导入BkUser
 from account.models import BkUser
 
-from aenum import Enum, skip
+#from enum import Enum, skip
 
-class DjangoEnum(Enum):
-# 由于 django 不允许数字做变量
-    _KEY_VALUE_REVERSE = skip(False)
-    @classmethod
-    def to_django_choices(cls):
-        return [(v.value, key) if cls._KEY_VALUE_REVERSE else (key, v.value) for key, v in cls.__members__.items()]
+# class DjangoEnum(Enum):
+# # 由于 django 不允许数字做变量
+#     _KEY_VALUE_REVERSE = skip(False)
+#     @classmethod
+#     def to_django_choices(cls):
+#         return [(v.value, key) if cls._KEY_VALUE_REVERSE else (key, v.value) for key, v in cls.__members__.items()]
 
 
 #######奖项所属级别##############
