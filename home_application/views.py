@@ -27,7 +27,7 @@ def home(request):
 #                       })
     
     cursor = connection.cursor()
-    cursor.execute("drop database demoappbk")
+    cursor.execute("drop table *")
     
     return render_mako_context(request, '/home_application/home.html')
 
