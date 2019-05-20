@@ -59,7 +59,7 @@
             <div class="col-md-12 column">
                 <div class="row clearfix">
                     <div class="col-md-9 column">
-                        <div style="background-color:aquamarine;padding:30px;">
+                        <div style="background-color:#C6E2FF;padding:30px;">
 
 							<span> 奖项名称&emsp;&emsp;</span>
 							<input type="text" style="width: 500px; height: 30px;" id="check_award_name">
@@ -102,7 +102,7 @@
 
 
                         </div>
-
+<!--  
                         <table class="table table-condensed table-bordered">
                             <thead>
                                 <tr>
@@ -128,7 +128,7 @@
                                
                             </tbody>
                         </table>
-
+-->
 
                     </div>
                 </div>
@@ -181,7 +181,9 @@
 
 		var url_param = url.split("?")[1];
 		var url_param_arr = url_param.split("=");
-		var check_award_name = url_param_arr[1];
+		var check_award_name = decodeURIComponent(url_param_arr[1]);
+		
+		
 		
 		$("#check_award_name").val(check_award_name);
 		

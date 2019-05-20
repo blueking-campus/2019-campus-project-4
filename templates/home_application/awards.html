@@ -101,16 +101,7 @@
             </tr>
         </thead>
         <tbody id = "information">
-            <tr>
-                <td>蓝鲸产品中心</td>
-                <td>中心级</td>
-                <td>季度之星</td>
-                <td>开启</td>
-                <td>2017-11-10 20:00:00</td>
-                <td>2017-11-20 20:00:00</td>
-                <td>10</td>
-                <td>1</td>
-            </tr>
+            
             
             
             % for i in awards_information :
@@ -121,7 +112,7 @@
 				<td>${i.id_award}</td>
 				<td>${i.status}</td>
 				<td>${i.start_time}</td>
-				<td>${i.end_time}</td>
+				<td>${i.apply_time}</td>
 				<td>${i.apply_number}</td>
 				<td>${i.award_number}</td>
                 <td>
@@ -193,6 +184,9 @@
 		<span>申报时间&emsp;&emsp;</span> 
 		<input type="text" style="width: 300px; height: 30px;" id = "clone_apply_time"> <br /> <br /> 
 		 
+		<span>结束时间&emsp;&emsp;</span> 
+		<input type="text" style="width: 300px; height: 30px;" id = "clone_end_time"> <br /> <br /> 
+		 
 		<span>申报人数&emsp;&emsp;</span> 
 		<input type="text" style="width: 300px; height: 30px;" id = "clone_apply_number"> <br /> <br /> 
 		 
@@ -262,6 +256,9 @@
 		<span>申报时间&emsp;&emsp;</span> 
 		<input type="text" style="width: 300px; height: 30px;" id = "edit_apply_time"> <br /> <br /> 
 		 
+		<span>结束时间&emsp;&emsp;</span> 
+		<input type="text" style="width: 300px; height: 30px;" id = "edit_end_time"> <br /> <br /> 
+		 
 		<span>申报人数&emsp;&emsp;</span> 
 		<input type="text" style="width: 300px; height: 30px;" id = "edit_apply_number"> <br /> <br /> 
 		 
@@ -311,7 +308,7 @@
         
     	var check_award_name = $(this).closest('tr').children('td:eq(2)').text();
     	
-    	alert( check_award_name );
+    	
     	
     	window.location.href= '../CheckAwards?nid='+encodeURI(check_award_name);
     
@@ -350,7 +347,8 @@
     			$("#clone_award_if").val(res.award_if);
     			$("#clone_start_time").val(res.start_time);
     			$("#clone_apply_time").val(res.apply_time);
-    			$("#clone_award_number").val(res.award_number);
+    			$("#clone_end_time").val(res.end_time);
+//    			$("#clone_award_number").val(res.award_number);
     		}
 		}, 'json');
                 
@@ -388,6 +386,7 @@
 	
 	var start_time = $("#clone_start_time").val();
 	var apply_time = $("#clone_apply_time").val();
+	var end_time = $("#clone_end_time").val();
 	
 	var apply_number = $("#clone_apply_number").val();
 	var award_number = $("#clone_award_number").val();
@@ -402,6 +401,7 @@
 			organ : organ,
 			start_time : start_time,
 			apply_time : apply_time,
+			end_time : end_time,
 			is_attach : is_attach,
 			status : status,
 			apply_number : apply_number,
@@ -449,7 +449,8 @@
     			$("#edit_award_if").val(res.award_if);
     			$("#edit_start_time").val(res.start_time);
     			$("#edit_apply_time").val(res.apply_time);
-    			$("#edit_award_number").val(res.award_number);
+    			$("#edit_end_time").val(res.end_time);
+ //   			$("#edit_award_number").val(res.award_number);
     		}
 		}, 'json');
     	
@@ -488,6 +489,7 @@
 	
 	var start_time = $("#edit_start_time").val();
 	var apply_time = $("#edit_apply_time").val();
+	var end_time = $("#edit_end_time").val();
 	
 	var apply_number = $("#edit_apply_number").val();
 	var award_number = $("#edit_award_number").val();
@@ -502,6 +504,7 @@
 			organ : organ,
 			start_time : start_time,
 			apply_time : apply_time,
+			end_time : end_time,
 			is_attach : is_attach,
 			status : status,
 			apply_number : apply_number,

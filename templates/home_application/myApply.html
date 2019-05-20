@@ -69,7 +69,7 @@
 		<table id="tb_data">
 		</table>
 	</div>
-	<table class="table table-condensed table-bordered">
+	<table class="table table-condensed table-bordered" id = "table01">
 		<thead>
 			<tr>
 				<th>所属中心</th>
@@ -82,24 +82,21 @@
 			</tr>
 		</thead>
 		<tbody id="search_record">
-			<tr>
-				<td>蓝鲸产品中心</td>
-				<td>季度之星</td>
-				<td>生效中</td>
-				<td>xxx</td>
-				<td>未申报</td>
-				<td>2019-04-26 18：00：00</td>
-				<td><a href="../ApplyAwards">申报</a></td>
-			</tr>
+			
 			% for i in all_record :
 			<tr>
-				<td>${i.organ}</td>
-				<td>${i.apply_award}</td>
-				<td>${i.award_status}</td>
-				<td>${i.apply}</td>
-				<td>${i.apply_status}</td>
-				<td>${i.apply_time}</td>
-				<td><a href="../ApplyAwards">申报</a></td>
+				<td>${i.apply_award.group_award.id_organ}</td>
+				<td>${i.apply_award.id_award}</td>
+				<td>${i.apply_award.status}</td>
+				<td>${i.id_apply}</td>
+				<td>${i.get_ap_status_display()}</td>
+				<td>${i.create_time}</td>
+				<td>
+                    <button class="btn btn-defaul" > <i class="glyphicon glyphicon-open">查看</i></button>
+                    <button class="btn btn-defaul" > <i class="glyphicon glyphicon-copyright-mark">申报</i></button>
+                    <button class="btn btn-defaul" > <i class="glyphicon glyphicon-pencil">编辑</i></button>
+    
+                </td>
 			</tr>
 			% endfor
 
@@ -117,11 +114,207 @@
 
 
 
+	<!-- 查看弹框 -->
+	<div class = "row" style=
+    			"position: absolute;
+				left: 0;
+				top: 0;
+				width: 800px;left: 50%;margin-left: -25%;
+				height: 800px;
+				top:50px;
+				background-color:#E0EEE0;
+				border : 1px solid #B9D3EE;
+				display: none;
+				padding : 40px;"
+				onmousedown="move(this)"
+				id="apply_view">
+		<div class="col-md-6">
+			<span> 奖项名称&emsp;&emsp;</span> 
+			<input type="text" style="width: 300px; height: 30px;" id="apply_award_name" disabled="disabled"> 
+			
+			<br />
+			<br /> 
+			<span> 评奖条件&emsp;&emsp;</span> 
+			<input type="text" style="width: 300px; height: 200px;" id="view_award_if">
+
+			<br />
+			<br /> 
+			<span> 奖项级别&emsp;&emsp;</span> 
+			<input type="text" style="width: 300px; height: 30px;" id ="view_award_level" disabled="disabled"> 
+			
+			<br />
+			<br /> 
+			<span> 所属组织&emsp;&emsp;</span> 
+			<input type="text" style="width: 300px; height: 30px;" id="view_organ"> 
+			
+			<br />
+			<br /> 
+			<span>开始时间&emsp;&emsp;</span>
+			<input type="text"	style="width: 300px; height: 30px;" id="view_start_time"> 
+			 
+			<br />
+			<br /> 
+			<span>结束时间&emsp;&emsp;</span> 
+			<input type="text" style="width: 300px; height: 30px;" id="view_end_time"> <br />
+			<br />
+		</div>
+
+		<div class="col-md-6">
+			<span> 申报人/团队&nbsp;&nbsp;</span> 
+			<input type="text" id="apply_name" style="width: 300px; height: 30px;">
+			<span style="color: red">*</span>
+
+
+			<br />
+			<span> 事迹介绍&emsp;&emsp;</span> 
+			<input type="text" id="view_intro" style="width: 300px; height: 150px;">
+			<span style="color: red">*</span>
+
+			<br />
+			<label for="exampleInputFile">附件</label>
+			<input type="file" id="file" name="myfile" /> 
+			
+			<br />
+            <span> 评审结果&emsp;&emsp;</span>
+            <input type="text" style="width: 300px; height: 30px;background-color:transparent;border:0;" id="view_ap_status" disabled="disabled">
+                            
+            <br/>
+            <br/>
+
+            <div class="content-head mgb10 form-inline">
+
+            	<span> 评语&emsp;&emsp;</span>
+            	<input type="text" id="view_comments" style="width: 300px; height: 150px; padding-top: 0px;" disabled="disabled" >
+            	<span style="color:red">*</span>
+            </div>
+
+			<br />
+
+			<button type="submit" class="btn btn-default" style="float: right" id="apply_quit">取消</button>
+			<span style="float: right">&emsp;&emsp;</span>
+
+
+		</div>
+	</div>
+
+
+	<!-- 申请和编辑弹框 -->
+	<div class = "row" style=
+    			"position: absolute;
+				left: 0;
+				top: 0;
+				width: 800px;left: 50%;margin-left: -25%;
+				height: 800px;
+				top:50px;
+				background-color:#E0EEE0;
+				border : 1px solid #B9D3EE;
+				display: none;
+				padding : 40px;"
+				onmousedown="move(this)"
+				id="apply_edit">
+		<div class="col-md-6">
+			<span> 奖项名称&emsp;&emsp;</span> 
+			<input type="text" style="width: 300px; height: 30px;" id="edit_award_name" disabled="disabled"> 
+			
+			<br />
+			<br /> 
+			<span> 评奖条件&emsp;&emsp;</span> 
+			<input type="text" style="width: 300px; height: 200px;" id="edit_award_if">
+
+			<br />
+			<br /> 
+			<span> 奖项级别&emsp;&emsp;</span> 
+			<input type="text" style="width: 300px; height: 30px;" id ="edit_award_level" disabled="disabled"> 
+			
+			<br />
+			<br /> 
+			<span> 所属组织&emsp;&emsp;</span> 
+			<input type="text" style="width: 300px; height: 30px;" id="edit_organ"> 
+			
+			<br />
+			<br /> 
+			<span>开始时间&emsp;&emsp;</span>
+			<input type="text"	style="width: 300px; height: 30px;" id="edit_start_time"> 
+			 
+			<br />
+			<br /> 
+			<span>结束时间&emsp;&emsp;</span> 
+			<input type="text" style="width: 300px; height: 30px;" id="edit_end_time"> <br />
+			<br />
+		</div>
+
+		<div class="col-md-6">
+			<span> 申报人/团队&nbsp;&nbsp;</span> 
+			<input type="text" id="edit_apply_name" style="width: 300px; height: 30px;">
+			<span style="color: red">*</span>
+
+
+			<br />
+			<span> 事迹介绍&emsp;&emsp;</span> 
+			<input type="text" id="edit_intro" style="width: 300px; height: 150px;">
+			<span style="color: red">*</span>
+
+			<br />
+			<label for="exampleInputFile">附件</label>
+			<input type="file" id="file" name="myfile" /> 
+			
+			<br />
+			<br />
+			<button type="submit" class="btn btn-default" style="float: right" id="edit_quit">取消</button>
+			<span style="float: right">&emsp;&emsp;</span>
+
+			<button type="submit" class="btn btn-default" style="float: right" id="edit_save">保存</button>
+			<span style="float: right">&emsp;&emsp;</span>
+
+			<button type="submit" class="btn btn-default" style="float: right" id="edit_my_apply">我要申报</button>
+
+		</div>
+	</div>
 
 
 </body>
 
 <script>
+	//表单中按钮功能
+	$(function() {
+
+		var button = $('#table01').find('.glyphicon-open').parent('button');
+
+
+
+		var status_value = button.closest('tr').children('td:eq(4)').text();
+
+
+		//button1——查看,button2——申报,button3——编辑
+		var button1 = button.closest('tr').children().find('.glyphicon-open')
+				.parent('button');
+		var button2 = button.closest('tr').children().find(
+				'.glyphicon-copyright-mark').parent('button');
+		var button3 = button.closest('tr').children().find('.glyphicon-pencil')
+				.parent('button');
+
+		/*
+		if (status_value == '未申报') {
+
+			$(button1).attr("disabled", true);
+			$(button3).attr("disabled", true);
+		} else if (status_value == '审核中') {
+			$(button1).attr("disabled", true);
+			$(button2).attr("disabled", true);
+		} else if (status_value == '未通过') {
+			$(button1).attr("disabled", true);
+			$(button2).attr("disabled", true);
+		} else if (status_value == '已通过') {
+			$(button1).attr("disabled", true);
+			$(button2).attr("disabled", true);
+		} else {
+			$(button2).attr("disabled", true);
+			$(button3).attr("disabled", true);
+		}
+*/
+	})
+
+	//查询功能
 	$(function() {
 		$("#search").click(
 				function() {
@@ -155,6 +348,206 @@
 					}, 'json');
 				})
 	});
+
+//查看
+ $('#table01').find('.glyphicon-open').parent('button').click(function(){
+        
+    	if($("#apply_view").css("display")=="none"){
+            $("#apply_view").show();
+        }
+
+    	var apply_award_name = $(this).closest('tr').children('td:eq(1)').text(); 
+    	var apply_name = $(this).closest('tr').children('td:eq(3)').text(); 
+    	
+    	$("#apply_award_name").val(apply_award_name);
+    	$("#apply_name").val(apply_name);
+
+    	
+    	var url = "${SITE_URL}apply_award/";//申请表查看页面函数
+    	
+    	var param = {
+    			apply_award_name : apply_award_name,
+    			apply_name : apply_name
+			};
+
+     
+    	$.get(url, param, function(res) {
+    		if(res.result) {
+    			$("#view_award_if").val(res.award_if);
+				$("#view_award_status").val(res.award_status);
+    			$("#view_award_level").val(res.award_level);
+    			$("#view_organ").val(res.organ);
+    			$("#view_start_time").val(res.start_time);
+    			$("#view_end_time").val(res.end_time);
+
+    			$("#view_intro").val(res.intro);
+    			$("#view_ap_status").val(res.ap_status);
+    			$("#view_comments").val(res.comments);
+
+ //   			$("#edit_award_number").val(res.award_number);
+    		}
+		}, 'json');
+    	
+    	//window.location.href = "../edit";
+    });
+    
+
+	//查看后返回功能
+	$("#apply_quit").click(function (){
+	
+    if($("#apply_view").css("display")=="block"){
+        $("#apply_view").hide();
+    }
+
+    
+    });
+
+//编辑功能
+$('#table01').find('.glyphicon-pencil').parent('button').click(function(){
+
+    	if($("#apply_edit").css("display")=="none"){
+            $("#apply_edit").show();
+        }
+    	
+    	 
+    	
+    	var edit_award_name = $(this).closest('tr').children('td:eq(1)').text(); 
+    	var edit_apply_name = $(this).closest('tr').children('td:eq(3)').text(); 
+
+    	
+		
+    	
+    	$("#edit_award_name").val(edit_award_name);
+    	$("#edit_apply_name").val(edit_apply_name);
+
+    	
+    	var url = "${SITE_URL}apply_award_edit/";//申请表编辑页面函数
+    	
+    	var param = {
+    			edit_award_name : edit_award_name,
+    			edit_apply_name : edit_apply_name,
+			};
+
+     
+    	$.get(url, param, function(res) {
+    		if(res.result) {
+    			$("#edit_award_if").val(res.award_if);
+				$("#edit_award_status").val(res.award_status);
+    			$("#edit_award_level").val(res.award_level);
+    			$("#edit_organ").val(res.organ);
+    			$("#edit_start_time").val(res.start_time);
+    			$("#edit_end_time").val(res.end_time);
+
+    			$("#edit_intro").val(res.intro);
+//    			$("#edit_ap_status").val(res.ap_status);
+ //   			$("#edit_comments").val(res.comments);
+
+ //   			$("#edit_award_number").val(res.award_number);
+    		}
+		}, 'json');
+    	
+    	//window.location.href = "../edit";
+    });
+    
+	$(function() {
+	//编辑后我要申报功能
+		$("#edit_my_apply").click(function (){
+	
+
+			var url = "${SITE_URL}edit_myApply/";
+			var edit_award_name = $("#edit_award_name").val();
+			var edit_apply_name = $("#edit_apply_name").val();
+			var edit_intro = $("#edit_intro").val();
+			var edit_file_fakepath = $("#file").val();
+			var edit_fileName = edit_file_fakepath.split("\\").pop();
+
+			var param = {
+				edit_award_name : edit_award_name,
+				edit_apply_name : edit_apply_name,
+				edit_intro : edit_intro,
+				file_fakepath : edit_file_fakepath,
+				fileName : edit_fileName
+			};
+
+		$.get(url, param, function(res) {
+			
+		}, 'json');
+		
+		if($("#apply_edit").css("display")=="block"){
+				 $("#apply_edit").hide();
+		}
+
+	})
+
+
+		//编辑后保存功能
+	$("#edit_save").click(function() {
+		
+				var url = "${SITE_URL}edit_apply_save/";
+				var save_apply_name = $("#edit_apply_name").val();
+				var save_intro = $("#edit_intro").val();
+				var save_file_fakepath = $("#file").val();
+					
+				var save_award_name = $("#edit_award_name").val();
+				var save_fileName = save_file_fakepath.split("\\").pop();
+
+					
+//				alert( fileName )
+					
+				var param = {
+					save_apply_name : save_apply_name,
+					save_intro : save_intro,
+					file_fakepath : save_file_fakepath,
+					fileName : save_fileName,
+					save_award_name : save_award_name
+					};
+
+				$.get(url, param, function(res) {
+
+				}, 'json');
+
+				if($("#apply_edit").css("display")=="block"){
+       					 $("#apply_edit").hide();
+       			}
+
+				})
+				
+	
+	$("#edit_quit").click(function() {
+
+			if ($("#apply_edit").css("display") == "block") {
+				$("#apply_edit").hide();
+			}
+
+		});
+	});
+
+	//div窗体拖动功能
+	function move(obj, e) {
+		var _move = false;//移动标记  
+		var _x, _y;//鼠标离控件左上角的相对位置  
+		$(obj).click(function() {
+			//alert("click");//点击（松开后触发）  
+		}).mousedown(function(e) {
+			_move = true;
+			_x = e.pageX - parseInt($(obj).css("left"));
+			_y = e.pageY - parseInt($(obj).css("top"));
+			//$(obj).fadeTo(20, 0.5);//点击后开始拖动并透明显示  
+		});
+		$(document).mousemove(function(e) {
+			if (_move) {
+				var x = e.pageX - _x;//移动时根据鼠标位置计算控件左上角的绝对位置  
+				var y = e.pageY - _y;
+				$(obj).css({
+					top : y,
+					left : x
+				});//控件新位置  
+			}
+		}).mouseup(function() {
+			_move = false;
+			//$(obj).fadeTo("fast", 1);//松开鼠标后停止移动并恢复成不透明  "fast":规定褪色效果的速度。
+		});
+	}
 </script>
 
 </html>

@@ -53,12 +53,11 @@
         </li>
     </ul>
 
-    </div>
     <div class="tb-container form-inline">
         <table id="tb_data">
         </table>
     </div>
-    <table class="table table-condensed table-bordered">
+    <table class="table table-condensed table-bordered" id = "table01">
         <thead>
             <tr>
                 <th>所属中心</th>
@@ -72,75 +71,28 @@
         </thead>
 
         <tbody>
-            <tr>
-                <td>蓝鲸产品中心</td>
-                <td>季度之星</td>
-                <td>xxx</td>
-                <td>审核中</td>
-                <td>2017-11-21 12:00:00</td>
-                <td>abc</td>
-                <td>
-                    <a href="链接">通过</a>
-                    <a href="链接">驳回</a>
+            
+            
+            % for i in review_record :
+			<tr>
+				<td>${i.apply_award.group_award.id_organ}</td>
+				<td>${i.apply_award.id_award}</td>
+				<td>${i.id_apply}</td>
+				<td>${i.get_ap_status_display()}</td>
+				<td>${i.create_time}</td>
+				<td>${i.apply_award.group_award.organ_id.username}</td>
+				<td>
+                    <button class="btn btn-defaul" > <i class="glyphicon glyphicon-ok">通过</i></button>
+                    <button class="btn btn-defaul" > <i class="glyphicon glyphicon-remove">驳回</i></button>
+                    <button class="btn btn-defaul" > <i class="glyphicon glyphicon-star">评奖</i></button>
+    
                 </td>
-            </tr>
+			</tr>
+			% endfor
+            
         </tbody>
-
-        <tbody>
-            <tr>
-                <td>蓝鲸产品中心</td>
-                <td>季度之星</td>
-                <td>xxx</td>
-                <td>审核中</td>
-                <td>2017-11-21 12:00:00</td>
-                <td>abc</td>
-                <td>--</td>
-            </tr>
-        </tbody>
-
-        <tbody>
-            <tr>
-                <td>蓝鲸产品中心 </td>
-                <td>季度之星</td>
-                <td>xxx</td>
-                <td>审核中</td>
-                <td>2017-11-21 12:00:00 </td>
-                <td>abc</td>
-                <td>
-                    <a href="../ReviewAwards">评奖</a>
-                </td>
-            </tr>
-        </tbody>
-
-        <tbody>
-            <tr>
-                <td>蓝鲸产品中心</td>
-                <td>季度之星 </td>
-                <td>xxx</td>
-                <td>审核中</td>
-                <td>2017-11-21 12:00:00</td>
-                <td>abc</td>
-                <td>
-                    <a href="链接">通过</a>
-                    <a href="链接">驳回</a>
-                </td>
-            </tr>
-        </tbody>
-
-        <tbody>
-            <tr>
-                <td>蓝鲸产品中心</td>
-                <td>季度之星</td>
-                <td>xxx</td>
-                <td>审核中</td>
-                <td>2017-11-21 12:00:00</td>
-                <td>abc</td>
-                <td>
-                    <a href="链接">通过</a>
-                    <a href="链接">驳回</a>
-                </td>
-            </tr>
-        </tbody>
+		
+        
 
 
     </table>
@@ -153,18 +105,270 @@
         <button class="next">下一页</button>
     </div>
 
-    </div>
-    </div>
-    </div>
+
+	<!-- 评奖 -->
+	<div class = "row" style=
+    			"position: absolute;
+				left: 0;
+				top: 0;
+				width: 800px;left: 50%;margin-left: -25%;
+				height: 800px;
+				top:50px;
+				background-color:#E0EEE0;
+				border : 1px solid #B9D3EE;
+				display: none;
+				padding : 40px;"
+				onmousedown="move(this)"
+				id="prize">
+		<div class="col-md-6">
+			<span> 奖项名称&emsp;&emsp;</span> 
+			<input type="text" style="width: 300px; height: 30px;" id="prize_award_name" disabled="disabled"> 
+			
+			<br />
+			<br /> 
+			<span> 评奖条件&emsp;&emsp;</span> 
+			<input type="text" style="width: 300px; height: 200px;" id="prize_award_if"  disabled="disabled">
+
+			<br />
+			<br /> 
+			<span> 奖项级别&emsp;&emsp;</span> 
+			<input type="text" style="width: 300px; height: 30px;" id ="prize_award_level" disabled="disabled"> 
+			
+			<br />
+			<br /> 
+			<span> 所属组织&emsp;&emsp;</span> 
+			<input type="text" style="width: 300px; height: 30px;" id="prize_organ"> 
+			
+			<br />
+			<br /> 
+			<span>开始时间&emsp;&emsp;</span>
+			<input type="text"	style="width: 300px; height: 30px;" id="prize_start_time"> 
+			 
+			<br />
+			<br /> 
+			<span>结束时间&emsp;&emsp;</span> 
+			<input type="text" style="width: 300px; height: 30px;" id="prize_end_time"> <br />
+			<br />
+		</div>
+
+		<div class="col-md-6">
+			<span> 申报人/团队&nbsp;&nbsp;</span> 
+			<input type="text" id="prize_apply_name" style="width: 300px; height: 30px;">
+			<span style="color: red">*</span>
 
 
+			<br />
+			<span> 事迹介绍&emsp;&emsp;</span> 
+			<input type="text" id="prize_intro" style="width: 300px; height: 150px;" >
+			<span style="color: red">*</span>
+
+			<br />
+			<label for="exampleInputFile">附件</label>
+			<input type="file" id="file" name="myfile" /> 
+			
+			<br />
+            <span> 评奖&emsp;&emsp;</span>
+			<form id="list" >
+				<input type="radio" name="is_prize" value="6">获奖
+				<input type="radio" name="is_prize" value="5">未获奖
+			</form>
+
+			<br/>
+            <br/>
+
+            <div class="content-head mgb10 form-inline">
+
+            	<span> 评语&emsp;&emsp;&emsp;&emsp;</span>
+            	<input type="text" id="prize_comments" style="width: 300px; height: 150px;" >
+            	<span style="color:red">*</span>
+            </div>
+
+			<br />
+
+			<button type="submit" class="btn btn-default" style="float: right" id="prize_return">返回</button>
+			<span style="float: right">&emsp;&emsp;</span>
+			
+			<button type="submit" class="btn btn-default" style="float: right" id="sub">提交</button>
+			<span style="float: right">&emsp;&emsp;</span>
+
+
+		</div>
+	</div>
 
 
 
 </body>
 
 <script>
+	
+	$(function() {
+		var button = $('#table01').find('.glyphicon-ok').parent('button');
+		var status_value = button.closest('tr').children('td:eq(3)').text();
+		
+		//button1——通过,button2——驳回,button3——评奖
+		var button1 = button.closest('tr').children().find('.glyphicon-ok')
+				.parent('button');
+		var button2 = button.closest('tr').children().find('.glyphicon-remove')
+				.parent('button');
+		var button3 = button.closest('tr').children().find('.glyphicon-star')
+				.parent('button');
+		
+		
+		
+		//按钮禁用
+		/*
+		if (status_value == '审核中') {
+			$(button3).attr("disabled", true);
+		} 
+		else if (status_value == '已通过') {
+			$(button1).attr("disabled", true);
+			$(button2).attr("disabled", true);
+		}
+		else {
+			$(button1).attr("disabled", true);
+			$(button2).attr("disabled", true);
+			$(button3).attr("disabled", true);
+		}
+		*/
+		
+		//审核通过按钮
+		$(button1).click( function() {
+			var award_name = $(this).closest('tr').children('td:eq(1)').text();
+//			alert( award_name )
+			var apply_name = $(this).closest('tr').children('td:eq(2)').text();
+			
+			var url = "${SITE_URL}review_pass/";
+			
+			var param = {
+					award_name : award_name,
+					apply_name : apply_name
+				};
+			$.get(url, param, function(res) {
+				
+				}, 'json');
+		})
+		
+		//审核驳回按钮
+		$(button1).click( function() {
+			var award_name = $(this).closest('tr').children('td:eq(1)').text();
+//			alert( award_name )
+			var apply_name = $(this).closest('tr').children('td:eq(2)').text();
+			
+			var url = "${SITE_URL}review_reject/";
+			
+			var param = {
+					award_name : award_name,
+					apply_name : apply_name
+				};
+			$.get(url, param, function(res) {
+				
+				}, 'json');
+		})
+		
+		
+		//审核评奖按钮
+		 $('#table01').find('.glyphicon-star').parent('button').click(function(){
+		        
+		    	if($("#prize").css("display")=="none"){
+		            $("#prize").show();
+		        }
 
+		    	var apply_award_name = $(this).closest('tr').children('td:eq(1)').text(); 
+		    	var apply_name = $(this).closest('tr').children('td:eq(2)').text(); 
+		    	
+		    	$("#prize_award_name").val(apply_award_name);
+		    	$("#prize_apply_name").val(apply_name);
+
+		    	
+		    	var url = "${SITE_URL}review_prize/";//申请表查看页面函数
+		    	
+		    	var param = {
+		    			apply_award_name : apply_award_name,
+		    			apply_name : apply_name
+					};
+
+		     
+		    	$.get(url, param, function(res) {
+		    		if(res.result) {
+		    			$("#prize_award_if").val(res.award_if);
+						$("#prize_award_status").val(res.award_status);
+		    			$("#prize_award_level").val(res.award_level);
+		    			$("#prize_organ").val(res.organ);
+		    			$("#prize_start_time").val(res.start_time);
+		    			$("#prize_end_time").val(res.end_time);
+
+		    			$("#prize_intro").val(res.intro);
+//		    			$("#prize_ap_status").val(res.ap_status);
+		    			$("#prize_comments").val(res.comments);
+
+		    		}
+				}, 'json');
+		    	
+		    });
+		
+		
+		//评奖提交按钮
+		$("#sub").click( function() {
+			var prize_status = $('input:radio:checked').val();
+//			alert( prize_status )
+			var comments = $("#prize_comments").val();
+			
+			alert(comments )
+			
+			var prize_award_name = $("#prize_award_name").val();
+	    	var prize_apply_name = $("#prize_apply_name").val();
+			
+	    	var url = "${SITE_URL}review_prize_submit/";
+	    	
+			var param = {
+					prize_award_name : prize_award_name,
+					prize_apply_name : prize_apply_name,
+					prize_status : prize_status,
+					comments : comments
+				};
+			
+			$.get(url, param, function(res) {
+				
+			}, 'json');
+			
+			if($("#prize").css("display")=="block"){
+		        $("#prize").hide();
+		    }
+		})
+		
+		//评奖后返回功能
+		$("#prize_return").click( function() {
+			if($("#prize").css("display")=="block"){
+		        $("#prize").hide();
+		    }
+		})
+	    
+	})
+	
+	//div窗体拖动功能
+function move(obj,e){
+		var _move=false;//移动标记  
+		var _x,_y;//鼠标离控件左上角的相对位置  
+		$(obj).click(function(){  
+			//alert("click");//点击（松开后触发）  
+			}).mousedown(function(e){  
+			_move=true;  
+			_x=e.pageX-parseInt($(obj).css("left"));  
+			_y=e.pageY-parseInt($(obj).css("top"));  
+			//$(obj).fadeTo(20, 0.5);//点击后开始拖动并透明显示  
+		});  
+		$(document).mousemove(function(e){  
+			if(_move){  
+				var x=e.pageX-_x;//移动时根据鼠标位置计算控件左上角的绝对位置  
+				var y=e.pageY-_y;  
+				$(obj).css({top:y,left:x});//控件新位置  
+			}  
+		}).mouseup(function(){  
+		_move=false;  
+   	 	//$(obj).fadeTo("fast", 1);//松开鼠标后停止移动并恢复成不透明  "fast":规定褪色效果的速度。
+  		});  
+	}
+	
 </script>
 
 </html>

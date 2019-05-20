@@ -57,7 +57,7 @@
         <table id="tb_data">
         </table>
     </div>
-    <table class="table table-condensed table-bordered" style="text-align:center;" >
+    <table class="table table-condensed table-bordered" style="text-align:center;" id = "organ_information">
         <thead >
             <tr>
                 <th>所属组织</th>
@@ -69,14 +69,22 @@
             </tr>
         </thead>
         <tbody>
+            % for i in organ_information :
+                 
             <tr>
-                <td>蓝鲸产品中心</td>
-                <td>xxx;yyy;zzz</td>
-                <td></td>
-                <td>admin</td>
-                <td>2019-04-26 18：00：00</td>
-                <td><a href="">编辑</a> <a href="">删除</a></td>
+                <td>${i.organ.id_organ}</td>
+                <td>${i.organ_charge}</td>
+                <td>${i.organ_apply}</td>
+                <td>${i.organ.organ_id.username}</td>
+                <td>${i.organ.apply_time}</td>
+                <td>
+                    <button class="btn btn-defaul" > <i class="glyphicon glyphicon-pencil">编辑</i></button>
+                    <button class="btn btn-defaul" > <i class="glyphicon glyphicon-remove">删除</i></button>
+                </td>
             </tr>
+                
+            % endfor
+
             
             
         </tbody>
@@ -101,6 +109,7 @@
 				border : 1px solid #B9D3EE;
 				display: none;
 				padding : 40px;"
+				onmousedown="move(this)"
 				id="add">
 		
         <span> 所属组织</span>
@@ -109,15 +118,47 @@
         <br/><br/><br/><br/>
 
         <span> 负责人员</span>
-        <input type="text" style="width:300px; height:30px;" id = "charge_person">
+        <input type="text" style="width:300px; height:30px;" id = "organ_charge">
 
         <br/><br/><br/><br/>
         
         <span> 参评人员</span>
-        <input type="text" style="width:300px; height:90px;" id = "assessor">
+        <input type="text" style="width:300px; height:90px;" id = "organ_apply">
 
         <br/><br/><br/>
         <button type="submit" class="btn btn-default" style = "float:right" id = "save">保存</button> 
+    </div>
+    
+    
+    <div style=
+    			"position: fixed;
+				left: 0;
+				top: 0;
+				width: 500px;left: 50%;margin-left: -25%;
+				height: 500px;
+				top:100px;
+				background-color:#E0EEE0;
+				border : 1px solid #B9D3EE;
+				display: none;
+				padding : 40px;"
+				onmousedown="move(this)"
+				id="edit">
+		
+        <span> 所属组织</span>
+        <input type="text" style="width:300px; height:30px;" id = "edit_organ">
+        
+        <br/><br/><br/><br/>
+
+        <span> 负责人员</span>
+        <input type="text" style="width:300px; height:30px;" id = "edit_organ_charge">
+
+        <br/><br/><br/><br/>
+        
+        <span> 参评人员</span>
+        <input type="text" style="width:300px; height:90px;" id = "edit_organ_apply">
+
+        <br/><br/><br/>
+        <button type="submit" class="btn btn-default" style = "float:right" id = "edit_save">保存</button> 
     </div>
 
     
@@ -137,13 +178,17 @@ $("#save").click(function (){
 	var url = "${SITE_URL}new_add_organization/";
 	
 	var organ = $("#organ").val();
-	var charge_person = $("#charge_person").val();
-	var assessor = $("#assessor").val();
-	
+	var organ_charge = $("#organ_charge").val();
+	var organ_apply = $("#organ_apply").val();
+	var myDate = new Date();
+	var apply_time = myDate.getFullYear()+'-'+myDate.getMonth()+'-'+myDate.getDate()
+					+' '+myDate.getHours()+':'+myDate.getMinutes()+':'+myDate.getSeconds();
+					
 	var param = {
 			organ : organ,
-			charge_person : charge_person,
-			assessor : assessor
+			organ_charge : organ_charge,
+			organ_apply : organ_apply,
+			apply_time : apply_time
 		};
 
 		$.get(url, param, function(res) {
@@ -154,6 +199,85 @@ $("#save").click(function (){
         $("#add").hide();
     }
 });
+
+//删除功能
+$('#organ_information').find('.glyphicon-remove').parent('button').click(function(){
+	
+		
+    if(confirm('确定要删除？')){
+        $(this).closest('tr').remove();
+    }
+});
+
+//编辑功能
+$('#organ_information').find('.glyphicon-pencil').parent('button').click(function(){
+
+	if($("#edit").css("display")=="none"){
+        $("#edit").show();
+    }
+	
+	var edit_organ = $(this).closest('tr').children('td:eq(0)').text();
+	var edit_organ_charge = $(this).closest('tr').children('td:eq(1)').text();
+	var edit_organ_apply = $(this).closest('tr').children('td:eq(2)').text();
+	
+	$("#edit_organ").val(edit_organ);
+	$("#edit_organ_charge").val(edit_organ_charge);
+	$("#edit_organ_apply").val(edit_organ_apply);
+	
+//	var url = "${SITE_URL}edit_organ/";
+});
+
+//编辑完保存功能
+	$("#edit_save").click(function (){
+
+	var url = "${SITE_URL}edit_organ_manage/";
+	var myDate = new Date();
+	var edit_organ = $("#edit_organ").val();
+	var edit_organ_charge = $("#edit_organ_charge").val();
+	var edit_organ_apply = $("#edit_organ_apply").val();
+	var apply_time = myDate.getFullYear()+'-'+myDate.getMonth()+'-'+myDate.getDate()
+				+' '+myDate.getHours()+':'+myDate.getMinutes()+':'+myDate.getSeconds();
+	alert(edit_organ_charge);
+	
+	var param = {
+		organ : edit_organ,
+		organ_charge : edit_organ_charge,
+		organ_apply : edit_organ_apply,
+		apply_time : apply_time
+	};
+
+	$.get(url, param, function(res) {
+		
+	}, 'json');
+
+	if($("#edit").css("display")=="block"){
+    	$("#edit").hide();
+	}
+});
+
+	//div窗体拖动功能
+	function move(obj,e){
+			var _move=false;//移动标记  
+			var _x,_y;//鼠标离控件左上角的相对位置  
+			$(obj).click(function(){  
+				//alert("click");//点击（松开后触发）  
+				}).mousedown(function(e){  
+				_move=true;  
+				_x=e.pageX-parseInt($(obj).css("left"));  
+				_y=e.pageY-parseInt($(obj).css("top"));  
+				//$(obj).fadeTo(20, 0.5);//点击后开始拖动并透明显示  
+			});  
+			$(document).mousemove(function(e){  
+				if(_move){  
+					var x=e.pageX-_x;//移动时根据鼠标位置计算控件左上角的绝对位置  
+					var y=e.pageY-_y;  
+					$(obj).css({top:y,left:x});//控件新位置  
+				}  
+			}).mouseup(function(){  
+			_move=false;  
+	   	 	//$(obj).fadeTo("fast", 1);//松开鼠标后停止移动并恢复成不透明  "fast":规定褪色效果的速度。
+	  		});  
+		}
 
 </script>
 

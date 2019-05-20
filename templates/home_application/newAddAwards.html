@@ -84,6 +84,8 @@
 						 <input type="text"style="width: 700px; height: 30px;" id = "start_time"> <br /> <br /> 
 						 <span>申报时间&emsp;&emsp;</span> 
 						 <input type="text" style="width: 700px; height: 30px;" id = "apply_time"> <br /> <br /> 
+						 <span>结束时间&emsp;&emsp;</span> 
+						 <input type="text" style="width: 700px; height: 30px;" id = "end_time"> <br /> <br /> 
 						 <span>申报人数&emsp;&emsp;</span> 
 						 <input type="text" style="width: 700px; height: 30px;" id = "apply_number"> <br /> <br /> 
 						 <span>获奖人数&emsp;&emsp;</span> 
@@ -160,6 +162,7 @@
 					
 					var start_time = $("#start_time").val();
 					var apply_time = $("#apply_time").val();
+					var end_time = $("#end_time").val();
 					
 					var is_attach = is_upload;
 					
@@ -177,6 +180,7 @@
 						organ : organ,
 						start_time : start_time,
 						apply_time : apply_time,
+						end_time : end_time,
 						is_attach : is_attach,
 						status : status,
 						apply_number : apply_number,
