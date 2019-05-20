@@ -18,8 +18,6 @@ urlpatterns = patterns(
     (r'^batchCloning/$', 'batchCloning'),
     (r'^CheckAwards/$', 'CheckAwards'),
     
-#我的申请-我要申报按钮
-    (r'^my_apply/$', 'my_apply'),
     
 #我的申请-查询功能
     (r'^apply_search/$', 'apply_search'),
@@ -50,4 +48,40 @@ urlpatterns = patterns(
     
 #查询奖项信息
     (r'^query_award/$', 'query_award'),
+    
+#组织管理编辑功能
+    (r'^edit_organ_manage/$', 'edit_organ_manage'),
+    
+#我要申报页面奖项信息渲染
+    (r'^my_apply_award/$', 'my_apply_award'),
+    
+#我的申请-我要申报按钮
+    (r'^my_apply/$', 'my_apply'),
+    
+#我的申请-保存按钮（未申报数据的保存）
+    (r'^my_apply_save/$', 'my_apply_save'),
+    
+#我的申报-编辑渲染
+    (r'^apply_award_edit/$', 'apply_award_edit'),
+
+#我的申报-编辑-我要申报
+    (r'^edit_myApply/$', 'edit_myApply'),
+
+#我的申报-编辑-保存
+    (r'^edit_apply_save/$', 'edit_apply_save'),
+    
+#我的申报-查看
+    (r'^apply_award/$', 'apply_award'),
+
+#我的审核——通过按钮
+    (r'^review_pass/$', 'review_pass'),
+    
+#我的审核——驳回按钮
+    (r'^review_reject/$', 'review_reject'),
+    
+#我的审核——评奖按钮
+    (r'^review_prize/$', 'review_prize'),
+    
+#我的审核——评奖页面提交
+    (r'^review_prize_submit/$', 'review_prize_submit'),
 )

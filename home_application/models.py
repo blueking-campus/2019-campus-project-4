@@ -9,14 +9,7 @@ from django.db import models
 #导入BkUser
 from account.models import BkUser
 
-#from enum import Enum, skip
 
-# class DjangoEnum(Enum):
-# # 由于 django 不允许数字做变量
-#     _KEY_VALUE_REVERSE = skip(False)
-#     @classmethod
-#     def to_django_choices(cls):
-#         return [(v.value, key) if cls._KEY_VALUE_REVERSE else (key, v.value) for key, v in cls.__members__.items()]
 
 
 #######奖项所属级别##############
@@ -46,25 +39,39 @@ LEVEL_TYPE = (
 #   awarde = '获奖'
 #   not_awarded = '未获奖'
 # _KEY_VALUE_REVERSE = skip(True)
+
 AP_STATUS = (
             (1, '未申报'),
-            (2, '已审核'),
-            (3, '未审核'),
-            (4, '通过'),
-            (5, '未通过'),
-            (6, '获奖'),
-            (7, '未获奖')
+            (2, '审核中'),
+            (3, '未通过'),
+            (4, '已通过'),
+            (5, '未获奖'),
+            (6, '已获奖'),
               )
 
 
+
+########人员身份#########
+USER_LEVEL = (
+            (1, '可申请人员'),
+            (2, '参评人员')
+                )
 
 
 
 #定义组织列表
 class Organization( models.Model ):
-    id_organ = models.CharField( max_length = 50,verbose_name = '组织名称')
-    id_user = models.ManyToManyField( BkUser , verbose_name = '负责人ID',default='')
-    #par_name = models.ForeignKey( BkUser , verbose_name = '参评人ID')
+    id_organ = models.CharField( max_length = 50,verbose_name = '所属组织')
+    organ_id = models.ForeignKey(BkUser, verbose_name = '更新人')
+
+    apply_time = models.DateTimeField(verbose_name = '申报时间')
+    
+    create_time = models.DateTimeField(
+                                       auto_now_add=True, 
+                                       verbose_name='创建时间',
+                                       null = True
+                                       )
+
     
     class Meta:
         db_table = 'organization'
@@ -72,21 +79,18 @@ class Organization( models.Model ):
     def __unicode__(self):
         return '%s' % (self.id_organ)
 
+#组织成员
+class Organ_User(models.Model):
+    organ = models.ForeignKey( Organization, verbose_name = '所属组织')
+    # par_name = models.ForeignKey( BkUser , verbose_name = '参评人ID')
+    organ_apply = models.CharField(max_length = 50,verbose_name = '申报人员')
+    organ_charge = models.CharField(max_length = 50,verbose_name = '负责人员')
 
 
-
-
-
-
-
-
-
-    
-
-#定义奖励表
+#定义奖项表
 class Award(models.Model):
     id_award = models.CharField( max_length = 50 , verbose_name = '奖项名称')
-    group_award = models.ForeignKey( Organization , verbose_name = '奖项组',default='')
+    group_award = models.ForeignKey( Organization , verbose_name = '奖项组')
     #奖项级别
     award_level = models.IntegerField(choices=LEVEL_TYPE, verbose_name='奖项级别')
 #     award_level = models.CharField(choices=ApplyFormType.to_django_choices('公司'))
@@ -94,8 +98,19 @@ class Award(models.Model):
 
     start_time = models.DateTimeField(verbose_name = '开始时间')
     end_time = models.DateTimeField(verbose_name = '结束时间')
-    create_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
-    update_time = models.DateTimeField(auto_now=True, verbose_name = '更新时间')
+
+    apply_time = models.DateTimeField(verbose_name = '创建时间')
+
+    create_time = models.DateTimeField(
+                                       auto_now_add=True, 
+                                       verbose_name='创建时间',
+                                       null = True
+                                       )
+    update_time = models.DateTimeField(
+                                       auto_now=True, 
+                                       verbose_name = '更新时间',
+                                       null = True
+                                       )
     apply_number = models.IntegerField(verbose_name = '申请人数')
     award_number = models.IntegerField(verbose_name = '获奖人数')
     award_condition = models.TextField(verbose_name = '参评条件')
@@ -120,15 +135,24 @@ class Attachment( models.Model):
 
 #定义申请表
 class ApplyForm( models.Model):
-    id_apply = models.ForeignKey(BkUser , verbose_name = '申请人ID')
-    group_apply = models.ManyToManyField(Organization , verbose_name = '申请人所在组织')
+    
+    id_apply = models.CharField( max_length = 50 , verbose_name = '申请人/团队')
+#    group_apply = models.ManyToManyField(Organization , verbose_name = '申请人所在组织')
     apply_award = models.ForeignKey(Award , verbose_name = '申请奖项')
     #申请表状态
     ap_status = models.IntegerField(choices=AP_STATUS, verbose_name='申请表状态')
     #ap_status = models.CharField(choices=AwardLevelType.to_django_choices('已审核'))
    
-    create_time = models.DateTimeField(auto_now_add=True, verbose_name="创建时间")
-    update_time = models.DateTimeField(auto_now=True, verbose_name="更新时间")
+    create_time = models.DateTimeField(
+                                       auto_now_add=True, 
+                                       verbose_name="创建时间",
+                                       null = True
+                                       )
+    update_time = models.DateTimeField(
+                                       auto_now=True, 
+                                       verbose_name="更新时间",
+                                       null = True
+                                       )
 
     intro = models.TextField(verbose_name = '事迹介绍')
     # review_result = (
